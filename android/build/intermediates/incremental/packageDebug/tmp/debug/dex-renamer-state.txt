@@ -1,4 +1,4 @@
-#Tue Dec 24 16:27:13 CET 2019
-base.0=/home/halias/Documents/LIBGLX/CivilizationTiles/android/build/intermediates/dex/debug/mergeDexDebug/out
+#Wed Dec 25 18:20:26 CET 2019
+base.0=/home/halias/Documents/LIBGLX/CivilizationTiles/android/build/intermediates/dex/debug/mergeDexDebug/out/classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

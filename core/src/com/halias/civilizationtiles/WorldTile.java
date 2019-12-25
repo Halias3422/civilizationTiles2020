@@ -6,28 +6,50 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class WorldTile
 {
-    private Sprite tile;
     int             x;
     int             y;
+    char            tileType;
 
-    public WorldTile(char tileType, int posX, int posY)
+    public WorldTile(char intTileType, int posX, int posY)
     {
-        if (tileType == 'G')
-            tile = new Sprite(new Texture("grass.png"));
-        else if (tileType == 'F')
-            tile = new Sprite(new Texture("forest.png"));
-        else if (tileType == 'S')
-            tile = new Sprite(new Texture("sand.png"));
-        else if (tileType == 'W')
-            tile = new Sprite(new Texture("shallowWater.png"));
-        x = posX * 32;
-        y = posY * 8;
+        tileType = intTileType;
+            x = posX * 32;
+            y = posY * 8;
         if ((posY + 1) % 2 == 0)
             x += 16;
     }
-
-    public void print(SpriteBatch batch, int width)
+    public WorldTile(int posX, int posY)
     {
-        batch.draw(tile, x, y);
+        x = posX;
+        y = posY;
+    }
+
+    public int getX()
+    {
+        return (x);
+    }
+
+    public int getY()
+    {
+        return (y);
+    }
+
+    public void print(SpriteBatch batch, TileTextures TileTextures)
+    {
+        if (tileType == 'V')
+            return ;
+        else if (tileType == 'G')
+            TileTextures.printGrassSprite(batch, x, y);
+        else if (tileType == 'F')
+            TileTextures.printForestSprite(batch,x , y);
+        else if (tileType == 'S')
+            TileTextures.printSandSprite(batch,x , y);
+        else if (tileType == 'W')
+            TileTextures.printShallowWaterSprite(batch, x, y);
+        else if (tileType == 'w')
+            TileTextures.printDeepWaterSprite(batch, x, y);
+        else if (tileType == 'D')
+            TileTextures.printDirtSprite(batch, x, y);
+
     }
 }

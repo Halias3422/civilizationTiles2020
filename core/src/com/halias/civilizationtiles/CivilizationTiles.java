@@ -24,6 +24,7 @@ public class CivilizationTiles extends ApplicationAdapter {
 	private int				   	  worldSizeX;
 	private int					  worldSizeY;
 
+	private TileTextures		  TileTextures;
 	private IntWorldMap			  IntWorldMap;
 	private LinkedList<WorldTile> listWorldMap;
 	private ListIterator<WorldTile> iterator;
@@ -40,6 +41,7 @@ public class CivilizationTiles extends ApplicationAdapter {
 
 		worldSizeY = 30;
 		worldSizeX = 10;
+		TileTextures = new TileTextures();
 		IntWorldMap = new IntWorldMap(worldSizeX, worldSizeY);
 		listWorldMap = new LinkedList<WorldTile>();
 		for (int i = 0; i < worldSizeY * worldSizeX ; i++)
@@ -54,6 +56,7 @@ public class CivilizationTiles extends ApplicationAdapter {
 	@Override
 	public void render () {
 		camera.update();
+		batch.setProjectionMatrix(camera.combined);
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.setProjectionMatrix(camera.combined);
@@ -66,7 +69,7 @@ public class CivilizationTiles extends ApplicationAdapter {
 		{
 			i++;
 			Current = iterator.next();
-			Current.print(batch, worldSizeX);
+			Current.print(batch, TileTextures);
 		}
 		batch.end();
 	}
