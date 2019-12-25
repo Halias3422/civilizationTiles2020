@@ -13,10 +13,10 @@ public class WorldTile
     public WorldTile(char intTileType, int posX, int posY)
     {
         tileType = intTileType;
-            x = posX * 32;
-            y = posY * 8;
+            x = posX * 16;
+            y = posY * 4;
         if ((posY + 1) % 2 == 0)
-            x += 16;
+            x += 8;
     }
     public WorldTile(int posX, int posY)
     {
@@ -34,6 +34,11 @@ public class WorldTile
         return (y);
     }
 
+    public char getTileType()
+    {
+        return (tileType);
+    }
+
     public void print(SpriteBatch batch, TileTextures TileTextures)
     {
         if (tileType == 'V')
@@ -45,9 +50,9 @@ public class WorldTile
         else if (tileType == 'S')
             TileTextures.printSandSprite(batch,x , y);
         else if (tileType == 'W')
-            TileTextures.printShallowWaterSprite(batch, x, y);
-        else if (tileType == 'w')
             TileTextures.printDeepWaterSprite(batch, x, y);
+        else if (tileType == 'w')
+            TileTextures.printShallowWaterSprite(batch, x, y);
         else if (tileType == 'D')
             TileTextures.printDirtSprite(batch, x, y);
 

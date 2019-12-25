@@ -25,10 +25,8 @@ public class CivilizationTiles extends ApplicationAdapter {
 	private int					  worldSizeY;
 
 	private TileTextures		  TileTextures;
-	private IntWorldMap			  IntWorldMap;
+	private CharWorldMap			  CharWorldMap;
 	private LinkedList<WorldTile> listWorldMap;
-	private ListIterator<WorldTile> iterator;
-	private WorldTile			  Current;
 
 	@Override
 	public void create () {
@@ -39,15 +37,15 @@ public class CivilizationTiles extends ApplicationAdapter {
 		//SCREEN_HEIGHT = Gdx.graphics.getHeight();
 		viewport = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT, camera);
 
-		worldSizeY = 30;
-		worldSizeX = 10;
+		worldSizeY = 60;
+		worldSizeX = 20;
 		TileTextures = new TileTextures();
-		IntWorldMap = new IntWorldMap(worldSizeX, worldSizeY);
+		CharWorldMap = new CharWorldMap(worldSizeX, worldSizeY);
 		listWorldMap = new LinkedList<WorldTile>();
 		for (int i = 0; i < worldSizeY * worldSizeX ; i++)
 		{
 			listWorldMap.addLast(new WorldTile(
-					IntWorldMap.getTileContent( i / worldSizeY, i % worldSizeY),
+					CharWorldMap.getTileContent( i / worldSizeY, i % worldSizeY),
 					i / worldSizeY, i % worldSizeY));
 		}
 		System.out.println("WORLD_TILES_LIST CREATED");
@@ -61,16 +59,9 @@ public class CivilizationTiles extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.setProjectionMatrix(camera.combined);
 
-		iterator = listWorldMap.listIterator(0);
 		batch.begin();
 		batch.draw(background, 0, 0);
-		int i = 0;
-		while (iterator.hasNext())
-		{
-			i++;
-			Current = iterator.next();
-			Current.print(batch, TileTextures);
-		}
+		CharWorldMap.printMap(batch, listWorldMap, TileTextures);
 		batch.end();
 	}
 	

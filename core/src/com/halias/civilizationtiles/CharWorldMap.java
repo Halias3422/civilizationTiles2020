@@ -18,12 +18,15 @@ package com.halias.civilizationtiles;
 
 */
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import java.util.LinkedList;
+import java.util.ListIterator;
 import java.util.Random;
 
 import static com.badlogic.gdx.math.MathUtils.random;
 
-public class IntWorldMap
+public class CharWorldMap
 {
     private char[][] worldMap;
 
@@ -36,20 +39,12 @@ public class IntWorldMap
     private int dirt;
     private int sand;
 
-    public IntWorldMap(int width, int length)
+    public CharWorldMap(int width, int length)
     {
         fillGenerationVariables(width, length);
         worldMap = new char[y][x];
         initWorldMap();
-  //      addWaterToMap();
-        int w = 0;
-        for (int i = 0; i < y; i++)
-        {
-            if (w < x)
-                worldMap[i][w] = 'W';
-            if (i % 2 != 0)
-                w++;
-        }
+        addWaterToMap();
         tmpAddGrassToMap();
         System.out.println("INT_WORLD_MAP CREATED");
         debugPrintWorldMap(x, y);
@@ -126,13 +121,56 @@ public class IntWorldMap
             {
                 randX = random.nextInt(x);
                 randY = random.nextInt(y);
-            } while (worldMap[randY][randX] == 'W' || worldMap[randY][randX] == 'V');
-            worldMap[randY][randX] = 'W';
-           GenerateWater = new GenerateTerrain(worldMap, 'W', waterPoints[i], randX, randY, x, y);
+            } while (worldMap[randY][randX] == 'w' || worldMap[randY][randX] == 'V');
+            worldMap[randY][randX] = 'w';
+           GenerateWater = new GenerateTerrain(worldMap, 'w', waterPoints[i], randX, randY, x, y);
            System.out.println();
+        }
+        addDeepWater();
+    }
+
+    private void addDeepWater()
+    {
+        for (int i = 0; i < y; i++)
+        {
+            for (int j = 0; j < x; j++)
+            {
+                if (worldMap[i][j] == 'w' && checkIfSurroundedByWater(i, j) == 1)
+                    worldMap[i][j] = 'W';
+            }
         }
     }
 
+    private int checkIfSurroundedByWater(int i, int j)
+    {
+        int check = 0;
+        if ((i + 1) % 2 != 0)
+        {
+            if (i == 0 ||
+                    ((j == 0 || worldMap[i - 1][j - 1] == 'w' || worldMap[i - 1][j - 1] == 'W' || worldMap[i - 1][j - 1] == 'V') &&
+                    (worldMap[i - 1][j] == 'w' || worldMap[i - 1][j] == 'W' || worldMap[i - 1][j] == 'V')))
+                check++;
+            if (i == y - 1 ||
+                    ((j == 0 || worldMap[i + 1][j - 1] == 'w' || worldMap[i + 1][j - 1] == 'W' || worldMap[i + 1][j - 1] == 'V') &&
+                    (worldMap[i + 1][j] == 'w' || worldMap[i + 1][j] == 'W' || worldMap[i + 1][j] == 'V')))
+                check++;
+        }
+        else
+        {
+            if (i == 0 ||
+                    ((worldMap[i - 1][j] == 'w' || worldMap[i - 1][j] == 'W' || worldMap[i - 1][j] == 'V') &&
+                    (j == x - 1 || worldMap[i - 1][j + 1] == 'w' || worldMap[i - 1][j + 1] == 'W' || worldMap[i - 1][j + 1] == 'V')))
+                check++;
+            if (i == y - 1 ||
+                    ((worldMap[i + 1][j] == 'w' || worldMap[i + 1][j] == 'W' || worldMap[i + 1][j] == 'V') &&
+                    (j == x - 1 || worldMap[i + 1][j + 1] == 'w' || worldMap[i + 1][j + 1] == 'W' || worldMap[i + 1][j + 1] == 'V')))
+                check++;
+        }
+        if (check == 2)
+            return (1);
+        return (0);
+
+    }
 
     public char getTileContent(int x, int y)
     {
@@ -141,12 +179,12 @@ public class IntWorldMap
 
     private void debugPrintWorldMap(int x, int y)
     {
-        /*for (int i = 0; i < y; i++)
+        for (int i = y - 1; i >= 0; i--)
         {
             for (int j = 0; j < x; j++)
                 System.out.print(worldMap[i][j] + " ");
             System.out.println();
-        }*/
+        }
         System.out.println("TOTAL TILES = " + tilesNumber);
         System.out.println("WATER = " + water + " (" + (100 * water) / tilesNumber + "%)");
         System.out.println("GRASS = " + grass + " (" + (100 * grass) / tilesNumber + "%)");
@@ -157,10 +195,32 @@ public class IntWorldMap
         {
             for (int j = 0; j < x; j++)
             {
-                if (worldMap[i][j] == 'W')
+                if (worldMap[i][j] == 'w')
                     countWater++;
             }
         }
         System.out.println("THERE ARE " + countWater + " WATER TILES");
+    }
+
+    public void printMap(SpriteBatch batch, LinkedList<WorldTile> listWorldMap, TileTextures TileTextures)
+    {
+        printTileType(batch, 'G', listWorldMap, TileTextures);
+        printTileType(batch, 'w', listWorldMap, TileTextures);
+        printTileType(batch, 'W', listWorldMap, TileTextures);
+    }
+
+    public void printTileType(SpriteBatch batch, char tileType, LinkedList<WorldTile> listWorldMap,
+    TileTextures TileTextures)
+    {
+        ListIterator<WorldTile> iterator;
+        WorldTile Current;
+
+        iterator = listWorldMap.listIterator(0);
+        while (iterator.hasNext())
+        {
+            Current = iterator.next();
+            if (Current.getTileType() == tileType)
+                Current.print(batch, TileTextures);
+        }
     }
 }

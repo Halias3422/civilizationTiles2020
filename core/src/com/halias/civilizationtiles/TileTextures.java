@@ -16,11 +16,17 @@ public class TileTextures
     public TileTextures()
     {
         grass = new Sprite(new Texture("grass.png"));
+        grass.setSize(16, 8);
         forest = new Sprite(new Texture("forest.png"));
+        forest.setSize(16, 8);
         sand = new Sprite(new Texture("sand.png"));
+        sand.setSize(16, 8);
         shallowWater = new Sprite(new Texture("shallowWater.png"));
+        shallowWater.setSize(16, 8);
         deepWater = new Sprite(new Texture("DeepWater.png"));
+        deepWater.setSize(16, 8);
         dirt = new Sprite(new Texture("dirt.png"));
+        dirt.setSize(16, 8);
     }
 
     public void printGrassSprite(SpriteBatch batch, int x, int y)
