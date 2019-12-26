@@ -49,17 +49,13 @@ public class GenerateTerrain
             nextSpawn[reset] = 0;
         do
         {
-            if (y + 1 < worldY && worldMap[y + 1][x] != 'W' &&
-                    worldMap[y + 1][x] != 'V')
+            if (y + 1 < worldY && worldMap[y + 1][x] == '0')
                 nextSpawn[0] = 1;
-            if (y - 1 >= 0 && worldMap[y - 1][x] != 'W' &&
-                    worldMap[y - 1][x] != 'V')
+            if (y - 1 >= 0 && worldMap[y - 1][x] == '0')
                 nextSpawn[1] = 1;
-            if (x + 1 < worldX && worldMap[y][x + 1] != 'W' &&
-                    worldMap[y][x + 1] != 'V')
+            if (x + 1 < worldX && worldMap[y][x + 1] == '0')
                 nextSpawn[2] = 1;
-            if (x - 1 >= 0 && worldMap[y][x - 1] != 'W' &&
-                    worldMap[y][x - 1] != 'V')
+            if (x - 1 >= 0 && worldMap[y][x - 1] == '0')
                 nextSpawn[3] = 1;
             for (int i = 0; i < 4; i++)
             {

@@ -8,6 +8,7 @@ public class TileTextures
 {
    private Sprite grass;
    private Sprite forest;
+   private Sprite tree;
    private Sprite deepWater;
    private Sprite shallowWater;
    private Sprite sand;
@@ -19,6 +20,8 @@ public class TileTextures
         grass.setSize(16, 8);
         forest = new Sprite(new Texture("forest.png"));
         forest.setSize(16, 8);
+        tree = new Sprite(new Texture("tree.png"));
+        tree.setSize(16, 16);
         sand = new Sprite(new Texture("sand.png"));
         sand.setSize(16, 8);
         shallowWater = new Sprite(new Texture("shallowWater.png"));
@@ -39,6 +42,12 @@ public class TileTextures
     {
         forest.setPosition(x, y);
         forest.draw(batch);
+    }
+
+    public void printTreeSprite(SpriteBatch batch, int x, int y)
+    {
+        tree.setPosition(x, y);
+        tree.draw(batch);
     }
 
     public void printSandSprite(SpriteBatch batch, int x, int y)
