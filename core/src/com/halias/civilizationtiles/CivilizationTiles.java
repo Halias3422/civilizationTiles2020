@@ -23,10 +23,11 @@ public class CivilizationTiles extends ApplicationAdapter {
 
 	private int				   	  worldSizeX;
 	private int					  worldSizeY;
+	private int					  worldSizeZ;
 
 	private TileTextures		  TileTextures;
-	private CharWorldMap			  CharWorldMap;
-	private LinkedList<WorldTile> listWorldMap;
+	private CharWorldMap		  CharWorldMap;
+	private NatureObjects		  NatureObjects;
 
 	@Override
 	public void create () {
@@ -39,16 +40,10 @@ public class CivilizationTiles extends ApplicationAdapter {
 
 		worldSizeY = 60;
 		worldSizeX = 20;
-		TileTextures = new TileTextures();
-		CharWorldMap = new CharWorldMap(worldSizeX, worldSizeY);
-		listWorldMap = new LinkedList<WorldTile>();
-		for (int i = 0; i < worldSizeY * worldSizeX ; i++)
-		{
-			listWorldMap.addLast(new WorldTile(
-					CharWorldMap.getTileContent( i / worldSizeY, i % worldSizeY),
-					i / worldSizeY, i % worldSizeY, worldSizeX, worldSizeY));
-		}
-		System.out.println("WORLD_TILES_LIST CREATED");
+		worldSizeZ = 100;
+		TileTextures = new TileTextures(worldSizeY, worldSizeX);
+		CharWorldMap = new CharWorldMap(worldSizeX, worldSizeY, worldSizeZ);
+		NatureObjects = new NatureObjects(CharWorldMap.getCharWorldMap(), worldSizeX, worldSizeY, worldSizeZ);
 	}
 
 	@Override
@@ -61,7 +56,7 @@ public class CivilizationTiles extends ApplicationAdapter {
 
 		batch.begin();
 		batch.draw(background, 0, 0);
-		CharWorldMap.printMap(batch, listWorldMap, TileTextures);
+		CharWorldMap.printMap(batch, NatureObjects, TileTextures);
 		batch.end();
 	}
 	

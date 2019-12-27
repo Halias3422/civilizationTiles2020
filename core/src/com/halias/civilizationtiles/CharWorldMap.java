@@ -29,10 +29,11 @@ import static com.badlogic.gdx.math.MathUtils.random;
 
 public class CharWorldMap
 {
-    private char[][] worldMap;
+    private char[][][] worldMap;
 
     private int x;
     private int y;
+    private int height;
     private int tilesNumber;
     private int voidTiles;
     private int water;
@@ -41,21 +42,45 @@ public class CharWorldMap
     private int dirt;
     private int sand;
 
-    public CharWorldMap(int width, int length)
+    public CharWorldMap(int width, int length, int worldZ)
     {
         x = width;
         y = length;
-        worldMap = new char[y][x];
+        height = worldZ;
+        worldMap = new char[height][y][x];
         initWorldMap();
         fillGenerationVariables(width, length);
         addNewTerrainToMap(forest, 'F', 1, 4);
         addNewTerrainToMap(dirt, 'D', 2, 6);
         addNewTerrainToMap(water, 'w', 2, 6);
         fillMapWithGrass();
-        for (int i = 0; i < y; i++)
-            System.out.println(worldMap[i]);
-        System.out.println("INT_WORLD_MAP CREATED");
+        createAllWorldLevels();
         debugPrintWorldMap(x, y);
+    }
+
+    private void createAllWorldLevels()
+    {
+        int nbAdded;
+        int percentChance = 50;
+        for (int z = 1; z < height; z++)
+        {
+            nbAdded = 0;
+            for (int i = 0; i < y; i++)
+            {
+                for (int j = 0; j < x; j++)
+                {
+                    if ((worldMap[z - 1][i][j] == 'G' || worldMap[z - 1][i][j] == 'F' ||
+                            worldMap[z - 1][i][j] == 'D') && random.nextInt(100) < percentChance)
+                    {
+                        worldMap[z][i][j] = worldMap[z - 1][i][j];
+                        nbAdded++;
+                    }
+                }
+            }
+            if (percentChance < 70)
+                percentChance += 5;
+            System.out.println("z = " + z + "percentchance = " + percentChance + "nb added = " + nbAdded);
+        }
     }
 
     private void fillMapWithGrass()
@@ -64,8 +89,8 @@ public class CharWorldMap
         {
             for (int j = 0; j < x; j++)
             {
-                if (worldMap[i][j] == '0')
-                    worldMap[i][j] = 'G';
+                if (worldMap[0][i][j] == '0')
+                    worldMap[0][i][j] = 'G';
             }
         }
     }
@@ -73,19 +98,23 @@ public class CharWorldMap
     private void initWorldMap()
     {
         voidTiles = 0;
-        for (int i = 0; i < y; i++)
+        for (int z = 0; z < height; z++)
         {
-            for (int j = 0; j < x; j++)
+            for (int i = 0; i < y; i++)
             {
-                if ((j == x - 1 || i == y - 1 ) && i % 2 != 0)
+                for (int j = 0; j < x; j++)
                 {
-                    voidTiles++;
-                    worldMap[i][j] = 'V';
+                    if ((j == x - 1 || i == y - 1) && i % 2 != 0)
+                    {
+                        if (z == 0)
+                            voidTiles++;
+                        worldMap[z][i][j] = 'V';
+                    } else
+                        worldMap[z][i][j] = '0';
                 }
-                else
-                    worldMap[i][j] = '0';
             }
         }
+
     }
 
     // random.nextInt(max + 1 - min) + min;
@@ -96,8 +125,8 @@ public class CharWorldMap
         grass = random.nextInt((int)Math.round(tilesNumber * 0.9) + 1 -
                 (int)Math.round(tilesNumber * 0.75)) + (int)Math.round(tilesNumber * 0.75);
         water = tilesNumber - grass;
-        forest = random.nextInt((int)Math.round(grass * 0.60) + 1 -
-                (int)Math.round(grass * 0.30)) + (int)Math.round(grass * 0.30);
+        forest = random.nextInt((int)Math.round(grass * 0.70) + 1 -
+                (int)Math.round(grass * 0.40)) + (int)Math.round(grass * 0.40);
         dirt = random.nextInt((int)Math.round(grass * 0.10) + 1 -
                 (int)Math.round(grass * 0.02)) + (int)Math.round(grass * 0.02);
         grass -= forest + dirt;
@@ -113,7 +142,7 @@ public class CharWorldMap
         int randX;
         GenerateTerrain GenerateTerrain;
 
-        //Deciding WaterPoints number and each respective size
+        //Deciding Texture Origin Points number and each respective size
 
         for (int i = 0; i < terrainOriginsNb - 1; i++)
         {
@@ -122,9 +151,8 @@ public class CharWorldMap
             addedSizes += terrainPoints[i];
         }
         terrainPoints[terrainOriginsNb - 1] = terrainSize - addedSizes;
-        System.out.println("TOTAL " + tileType + " ATTENDU = " + (addedSizes + terrainPoints[terrainOriginsNb - 1]));
 
-        //Positioning WaterPoints on map according to size
+        //Positioning Texture on map according to size
 
         for (int i = 0; i < terrainOriginsNb; i++)
         {
@@ -132,11 +160,11 @@ public class CharWorldMap
             {
                 randX = random.nextInt(x);
                 randY = random.nextInt(y);
-            } while (worldMap[randY][randX] != '0' || worldMap[randY][randX] == 'V');
-            worldMap[randY][randX] = tileType;
-           GenerateTerrain = new GenerateTerrain(worldMap, tileType, terrainPoints[i], randX, randY, x, y);
-           System.out.println();
+            } while (worldMap[0][randY][randX] != '0' || worldMap[0][randY][randX] == 'V');
+            worldMap[0][randY][randX] = tileType;
+           GenerateTerrain = new GenerateTerrain(worldMap[0], tileType, terrainPoints[i], randX, randY, x, y);
         }
+        if (tileType == 'w')
         addDeepWater();
     }
 
@@ -146,8 +174,8 @@ public class CharWorldMap
         {
             for (int j = 0; j < x; j++)
             {
-                if (worldMap[i][j] == 'w' && checkIfSurroundedByWater(i, j) == 1)
-                    worldMap[i][j] = 'W';
+                if (worldMap[0][i][j] == 'w' && checkIfSurroundedByWater(i, j) == 1)
+                    worldMap[0][i][j] = 'W';
             }
         }
     }
@@ -158,34 +186,41 @@ public class CharWorldMap
         if ((i + 1) % 2 != 0)
         {
             if (i == 0 ||
-                    ((j == 0 || worldMap[i - 1][j - 1] == 'w' || worldMap[i - 1][j - 1] == 'W' || worldMap[i - 1][j - 1] == 'V') &&
-                    (worldMap[i - 1][j] == 'w' || worldMap[i - 1][j] == 'W' || worldMap[i - 1][j] == 'V')))
+                    ((j == 0 || worldMap[0][i - 1][j - 1] == 'w' || worldMap[0][i - 1][j - 1] == 'W'
+                            || worldMap[0][i - 1][j - 1] == 'V') &&
+                    (worldMap[0][i - 1][j] == 'w' || worldMap[0][i - 1][j] == 'W' ||
+                            worldMap[0][i - 1][j] == 'V')))
                 check++;
             if (i == y - 1 ||
-                    ((j == 0 || worldMap[i + 1][j - 1] == 'w' || worldMap[i + 1][j - 1] == 'W' || worldMap[i + 1][j - 1] == 'V') &&
-                    (worldMap[i + 1][j] == 'w' || worldMap[i + 1][j] == 'W' || worldMap[i + 1][j] == 'V')))
+                    ((j == 0 || worldMap[0][i + 1][j - 1] == 'w' || worldMap[0][i + 1][j - 1] == 'W'
+                            || worldMap[0][i + 1][j - 1] == 'V') &&
+                    (worldMap[0][i + 1][j] == 'w' || worldMap[0][i + 1][j] == 'W' ||
+                            worldMap[0][i + 1][j] == 'V')))
                 check++;
         }
         else
         {
             if (i == 0 ||
-                    ((worldMap[i - 1][j] == 'w' || worldMap[i - 1][j] == 'W' || worldMap[i - 1][j] == 'V') &&
-                    (j == x - 1 || worldMap[i - 1][j + 1] == 'w' || worldMap[i - 1][j + 1] == 'W' || worldMap[i - 1][j + 1] == 'V')))
+                    ((worldMap[0][i - 1][j] == 'w' || worldMap[0][i - 1][j] == 'W' ||
+                            worldMap[0][i - 1][j] == 'V') &&
+                    (j == x - 1 || worldMap[0][i - 1][j + 1] == 'w' ||
+                            worldMap[0][i - 1][j + 1] == 'W' || worldMap[0][i - 1][j + 1] == 'V')))
                 check++;
             if (i == y - 1 ||
-                    ((worldMap[i + 1][j] == 'w' || worldMap[i + 1][j] == 'W' || worldMap[i + 1][j] == 'V') &&
-                    (j == x - 1 || worldMap[i + 1][j + 1] == 'w' || worldMap[i + 1][j + 1] == 'W' || worldMap[i + 1][j + 1] == 'V')))
+                    ((worldMap[0][i + 1][j] == 'w' || worldMap[0][i + 1][j] == 'W' ||
+                            worldMap[0][i + 1][j] == 'V') &&
+                    (j == x - 1 || worldMap[0][i + 1][j + 1] == 'w' ||
+                            worldMap[0][i + 1][j + 1] == 'W' || worldMap[0][i + 1][j + 1] == 'V')))
                 check++;
         }
         if (check == 2)
             return (1);
         return (0);
-
     }
 
-    public char getTileContent(int x, int y)
+    public char getTileContent(int x, int y, int z)
     {
-        return (worldMap[y][x]);
+        return (worldMap[z][y][x]);
     }
 
     private void debugPrintWorldMap(int x, int y)
@@ -193,7 +228,7 @@ public class CharWorldMap
         /*for (int i = y - 1; i >= 0; i--)
         {
             for (int j = 0; j < x; j++)
-                System.out.print(worldMap[i][j] + " ");
+                System.out.print(worldMap[0][i][j] + " ");
             System.out.println();
         }*/
         System.out.println("TOTAL TILES = " + tilesNumber);
@@ -213,45 +248,32 @@ public class CharWorldMap
         //System.out.println("THERE ARE " + countWater + " WATER TILES");
     }
 
-    public void printMap(SpriteBatch batch, LinkedList<WorldTile> listWorldMap, TileTextures TileTextures)
+    public void printMap(SpriteBatch batch, NatureObjects NatureObjects, TileTextures TileTextures)
     {
-        printTileType(batch, 'G', listWorldMap, TileTextures);
-        printTileType(batch, 'w', listWorldMap, TileTextures);
-        printTileType(batch, 'W', listWorldMap, TileTextures);
-        printTileType(batch, 'D', listWorldMap, TileTextures);
-        printTileType(batch, 'F', listWorldMap, TileTextures);
-
-        printObject(batch, "tree", listWorldMap, TileTextures);
+        for (int i = y - 1; i > - 1; i--)
+        {
+            for (int j = 0; j < x; j++)
+            {
+                for (int z = 0; z < height
+                        && worldMap[z][i][j] != '0' && worldMap[z][i][j] != 'V'; z++)
+                {
+                    printTile(batch, worldMap[z][i][j], TileTextures, z, j, i);
+                    if (z < height - 1 && worldMap[z + 1][i][j] == '0')
+                        NatureObjects.printObject(batch, TileTextures, worldMap, j, i, z);
+                }
+            }
+        }
     }
 
-    public void printObject(SpriteBatch batch, String object, LinkedList<WorldTile> listWorldMap,
-    TileTextures TileTextures)
+    private void printTile(SpriteBatch batch, char tileType, TileTextures TileTextures,
+                           int z, int posX, int posY)
     {
-        ListIterator<WorldTile> iterator;
-        WorldTile Current;
-        iterator = listWorldMap.listIterator(listWorldMap.size());
-        while (iterator.hasPrevious())
-        {
-            Current = iterator.previous();
-            if (object.equals("tree") && Current.getTileType() == 'F' && Current.getIfTree() == 1)
-                Current.printObject(batch, object, TileTextures);
-        }
-
-
+       WorldTile Current = new WorldTile(tileType, posX, posY, x, y, z);
+       Current.print(batch, worldMap, TileTextures, z, posX, posY);
     }
 
-    public void printTileType(SpriteBatch batch, char tileType, LinkedList<WorldTile> listWorldMap,
-    TileTextures TileTextures)
+    public char[][][] getCharWorldMap()
     {
-        ListIterator<WorldTile> iterator;
-        WorldTile Current;
-        iterator = listWorldMap.listIterator(listWorldMap.size());
-        //iterator = listWorldMap.listIterator(0);
-        while (iterator.hasPrevious())
-        {
-            Current = iterator.previous();
-            if (Current.getTileType() == tileType)
-                Current.print(batch, TileTextures);
-        }
+        return (worldMap);
     }
 }

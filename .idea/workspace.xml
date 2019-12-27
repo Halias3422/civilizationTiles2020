@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="92473bcc-00f4-4bc6-a8a0-6937be6ad8a0" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/core/src/com/halias/civilizationtiles/NatureObjects.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.0/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.0/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.0/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.0/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.0/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.0/fileHashes/fileHashes.bin" afterDir="false" />
@@ -14,35 +15,20 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/android.iml" beforeDir="false" afterPath="$PROJECT_DIR$/android/android.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/assets/DeepWater.png" beforeDir="false" afterPath="$PROJECT_DIR$/android/assets/DeepWater.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/assets/dirt.png" beforeDir="false" afterPath="$PROJECT_DIR$/android/assets/dirt.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/assets/forest.png" beforeDir="false" afterPath="$PROJECT_DIR$/android/assets/forest.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/assets/grass.png" beforeDir="false" afterPath="$PROJECT_DIR$/android/assets/grass.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/assets/sand.png" beforeDir="false" afterPath="$PROJECT_DIR$/android/assets/sand.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/assets/shallowWater.png" beforeDir="false" afterPath="$PROJECT_DIR$/android/assets/shallowWater.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/build/intermediates/dex/debug/mergeDexDebug/out/classes.dex" beforeDir="false" afterPath="$PROJECT_DIR$/android/build/intermediates/dex/debug/mergeDexDebug/out/classes.dex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/build/intermediates/incremental/debug-mergeJavaRes/zip-cache/bTHcxKtV8_OQvbLqtVoDiLGyi20=" beforeDir="false" afterPath="$PROJECT_DIR$/android/build/intermediates/incremental/debug-mergeJavaRes/zip-cache/bTHcxKtV8_OQvbLqtVoDiLGyi20=" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/build/intermediates/incremental/debug-mergeNativeLibs/zip-cache/bTHcxKtV8_OQvbLqtVoDiLGyi20=" beforeDir="false" afterPath="$PROJECT_DIR$/android/build/intermediates/incremental/debug-mergeNativeLibs/zip-cache/bTHcxKtV8_OQvbLqtVoDiLGyi20=" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" beforeDir="false" afterPath="$PROJECT_DIR$/android/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/build/outputs/apk/debug/android-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/android/build/outputs/apk/debug/android-debug.apk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/.transforms/6044eea44bf8b4fbb304dd66bf4f9f44/core-1.0/classes.dex" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/.transforms/6044eea44bf8b4fbb304dd66bf4f9f44/core-1.0/classes.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/assets/elevated_grass.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/assets/testGrass.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/assets/testWater.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/com/halias/civilizationtiles/CharWorldMap.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/com/halias/civilizationtiles/CharWorldMap.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/com/halias/civilizationtiles/CivilizationTiles.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/com/halias/civilizationtiles/CivilizationTiles.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/com/halias/civilizationtiles/GenerateTerrain.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/com/halias/civilizationtiles/GenerateTerrain.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/com/halias/civilizationtiles/TileTextures.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/com/halias/civilizationtiles/TileTextures.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/com/halias/civilizationtiles/WorldTile.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/com/halias/civilizationtiles/WorldTile.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build/libs/core-1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/libs/core-1.0.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/com/halias/civilizationtiles/CharWorldMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/halias/civilizationtiles/CharWorldMap.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/com/halias/civilizationtiles/CivilizationTiles.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/halias/civilizationtiles/CivilizationTiles.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/com/halias/civilizationtiles/GenerateTerrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/halias/civilizationtiles/GenerateTerrain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/com/halias/civilizationtiles/TileTextures.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/halias/civilizationtiles/TileTextures.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/com/halias/civilizationtiles/WorldTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/com/halias/civilizationtiles/WorldTile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/build/resources/main/DeepWater.png" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/build/resources/main/DeepWater.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/build/resources/main/dirt.png" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/build/resources/main/dirt.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/build/resources/main/forest.png" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/build/resources/main/forest.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/build/resources/main/grass.png" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/build/resources/main/grass.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/build/resources/main/sand.png" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/build/resources/main/sand.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/build/resources/main/shallowWater.png" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/build/resources/main/shallowWater.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/desktop/build/resources/main/testGrass.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/desktop/build/resources/main/testWater.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/desktop/desktop.iml" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/desktop.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ios/ios.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ios/ios.iml" afterDir="false" />
     </list>
@@ -55,7 +41,7 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_2_API_29" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="ZY3224SJHQ" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -69,14 +55,14 @@
     </system>
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.501287">
+    <splitter split-orientation="horizontal" split-proportion="0.514157">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/core/src/com/halias/civilizationtiles/CivilizationTiles.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="544">
-                  <caret line="43" column="51" selection-start-line="43" selection-start-column="51" selection-end-line="43" selection-end-column="51" />
+                <state relative-caret-position="187">
+                  <caret line="43" column="62" selection-start-line="43" selection-start-column="62" selection-end-line="43" selection-end-column="62" />
                 </state>
               </provider>
             </entry>
@@ -84,8 +70,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/core/src/com/halias/civilizationtiles/TileTextures.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="799">
-                  <caret line="49" column="24" selection-start-line="49" selection-start-column="24" selection-end-line="49" selection-end-column="24" />
+                <state relative-caret-position="-527">
+                  <caret line="93" selection-start-line="93" selection-end-line="93" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -96,8 +82,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/core/src/com/halias/civilizationtiles/WorldTile.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="663">
-                  <caret line="58" column="7" selection-start-line="58" selection-start-column="7" selection-end-line="58" selection-end-column="7" />
+                <state relative-caret-position="799">
+                  <caret line="60" column="77" selection-start-line="60" selection-start-column="77" selection-end-line="60" selection-end-column="77" />
                 </state>
               </provider>
             </entry>
@@ -105,11 +91,12 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/core/src/com/halias/civilizationtiles/CharWorldMap.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="223">
-                  <caret line="47" column="33" selection-start-line="47" selection-start-column="33" selection-end-line="47" selection-end-column="33" />
+                <state relative-caret-position="210">
+                  <caret line="80" column="34" selection-start-line="80" selection-start-column="34" selection-end-line="80" selection-end-column="34" />
                   <folding>
                     <element signature="imports" expanded="true" />
-                    <element signature="e#6081#6082#0" expanded="true" />
+                    <element signature="e#7254#7255#0" expanded="true" />
+                    <element signature="e#9277#9278#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -122,13 +109,31 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/core/src/com/halias/civilizationtiles/WorldTile.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="255">
-                  <caret line="25" column="25" selection-start-line="25" selection-start-column="25" selection-end-line="25" selection-end-column="25" />
+                <state relative-caret-position="305">
+                  <caret line="50" column="77" selection-start-line="50" selection-start-column="77" selection-end-line="50" selection-end-column="77" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/core/src/com/halias/civilizationtiles/NatureObjects.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="162">
+                  <caret line="62" column="29" selection-start-line="62" selection-start-column="29" selection-end-line="62" selection-end-column="29" />
                   <folding>
-                    <element signature="e#982#983#0" expanded="true" />
-                    <element signature="e#1037#1038#0" expanded="true" />
-                    <element signature="e#1107#1108#0" expanded="true" />
-                    <element signature="e#1174#1175#0" expanded="true" />
+                    <element signature="imports" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/core/src/com/halias/civilizationtiles/TileTextures.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="1254">
+                  <caret line="120" column="18" selection-start-line="120" selection-start-column="18" selection-end-line="120" selection-end-column="18" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -137,7 +142,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/core/src/com/halias/civilizationtiles/GenerateTerrain.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="244">
+                <state relative-caret-position="-395">
                   <caret line="24" column="48" selection-start-line="24" selection-start-column="48" selection-end-line="24" selection-end-column="48" />
                   <folding>
                     <element signature="imports" expanded="true" />
@@ -149,10 +154,12 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/core/src/com/halias/civilizationtiles/CharWorldMap.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="3264">
-                  <caret line="215" column="36" selection-start-line="215" selection-start-column="36" selection-end-line="215" selection-end-column="36" />
+                <state relative-caret-position="4250">
+                  <caret line="271" column="66" selection-start-line="271" selection-start-column="66" selection-end-line="271" selection-end-column="66" />
                   <folding>
                     <element signature="imports" expanded="true" />
+                    <element signature="e#7275#7276#0" expanded="true" />
+                    <element signature="e#7317#7318#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -178,10 +185,11 @@
         <option value="$PROJECT_DIR$/core/src/com/halias/civilizationtiles/intWorldMap.java" />
         <option value="$PROJECT_DIR$/desktop/src/com/halias/civilizationtiles/desktop/DesktopLauncher.java" />
         <option value="$PROJECT_DIR$/core/src/com/halias/civilizationtiles/IntWorldMap.java" />
-        <option value="$PROJECT_DIR$/core/src/com/halias/civilizationtiles/TileTextures.java" />
         <option value="$PROJECT_DIR$/core/src/com/halias/civilizationtiles/GenerateTerrain.java" />
         <option value="$PROJECT_DIR$/core/src/com/halias/civilizationtiles/CivilizationTiles.java" />
         <option value="$PROJECT_DIR$/core/src/com/halias/civilizationtiles/WorldTile.java" />
+        <option value="$PROJECT_DIR$/core/src/com/halias/civilizationtiles/NatureObjects.java" />
+        <option value="$PROJECT_DIR$/core/src/com/halias/civilizationtiles/TileTextures.java" />
         <option value="$PROJECT_DIR$/core/src/com/halias/civilizationtiles/CharWorldMap.java" />
       </list>
     </option>
@@ -196,7 +204,12 @@
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes />
+    <panes>
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="ProjectPane" />
+    </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
@@ -327,16 +340,16 @@
       <window_info id="Designer" order="6" />
       <window_info id="Resources Explorer" order="7" />
       <window_info id="Capture Tool" order="8" />
-      <window_info anchor="bottom" id="Run" order="0" weight="0.3290653" />
+      <window_info active="true" anchor="bottom" id="Run" order="0" visible="true" weight="0.3290653" />
       <window_info anchor="bottom" id="Logcat" order="1" />
       <window_info anchor="bottom" id="TODO" order="2" weight="0.3290653" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.32908162" />
       <window_info anchor="bottom" id="Event Log" order="4" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="5" sideWeight="0.4993565" visible="true" weight="0.25096032" />
+      <window_info anchor="bottom" id="Terminal" order="5" sideWeight="0.4993565" weight="0.4225352" />
       <window_info anchor="bottom" id="Version Control" order="6" weight="0.3290653" />
-      <window_info anchor="bottom" id="Build" order="7" weight="0.32783884" />
+      <window_info anchor="bottom" id="Build" order="7" weight="0.32756326" />
       <window_info anchor="bottom" id="Find" order="8" />
-      <window_info anchor="bottom" id="Android Profiler" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Android Profiler" order="9" />
       <window_info anchor="bottom" id="Device File Explorer" order="10" sideWeight="0.5006435" side_tool="true" weight="0.446863" />
       <window_info anchor="right" id="Capture Analysis" order="0" />
       <window_info anchor="right" id="Gradle" order="1" />
@@ -355,19 +368,19 @@
       <window_info id="Capture Tool" order="8" />
       <window_info anchor="bottom" id="Run" order="0" weight="0.3290653" />
       <window_info anchor="bottom" id="Logcat" order="1" />
-      <window_info anchor="bottom" id="TODO" order="2" weight="0.32908162" />
+      <window_info anchor="bottom" id="TODO" order="2" weight="0.3290653" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.32908162" />
       <window_info anchor="bottom" id="Event Log" order="4" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="5" visible="true" weight="0.36235595" />
-      <window_info anchor="bottom" id="Version Control" order="6" />
-      <window_info anchor="bottom" id="Build" order="7" weight="0.3290653" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="5" sideWeight="0.4993565" visible="true" weight="0.4225352" />
+      <window_info anchor="bottom" id="Version Control" order="6" weight="0.3290653" />
+      <window_info anchor="bottom" id="Build" order="7" weight="0.32756326" />
       <window_info anchor="bottom" id="Find" order="8" />
-      <window_info anchor="bottom" id="Android Profiler" order="9" />
-      <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
-      <window_info anchor="right" id="Capture Analysis" order="1" />
-      <window_info anchor="right" id="Gradle" order="2" />
-      <window_info anchor="right" id="Theme Preview" order="3" />
-      <window_info anchor="right" id="Palette&#9;" order="4" />
+      <window_info anchor="bottom" id="Android Profiler" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Device File Explorer" order="10" sideWeight="0.5006435" side_tool="true" weight="0.446863" />
+      <window_info anchor="right" id="Capture Analysis" order="0" />
+      <window_info anchor="right" id="Gradle" order="1" />
+      <window_info anchor="right" id="Theme Preview" order="2" />
+      <window_info anchor="right" id="Palette&#9;" order="3" />
     </layout-to-restore>
   </component>
   <component name="editorHistoryManager">
@@ -381,19 +394,9 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/desktop/src/com/halias/civilizationtiles/desktop/DesktopLauncher.java" />
-    <entry file="file://$PROJECT_DIR$/core/src/com/halias/civilizationtiles/TileTextures.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="799">
-          <caret line="49" column="24" selection-start-line="49" selection-start-column="24" selection-end-line="49" selection-end-column="24" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/core/src/com/halias/civilizationtiles/GenerateTerrain.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="244">
+        <state relative-caret-position="-395">
           <caret line="24" column="48" selection-start-line="24" selection-start-column="48" selection-end-line="24" selection-end-column="48" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -403,26 +406,47 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/com/halias/civilizationtiles/CivilizationTiles.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="43" column="51" selection-start-line="43" selection-start-column="51" selection-end-line="43" selection-end-column="51" />
+        <state relative-caret-position="187">
+          <caret line="43" column="62" selection-start-line="43" selection-start-column="62" selection-end-line="43" selection-end-column="62" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/com/halias/civilizationtiles/WorldTile.java">
+    <entry file="file://$PROJECT_DIR$/core/src/com/halias/civilizationtiles/NatureObjects.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
-          <caret line="58" column="7" selection-start-line="58" selection-start-column="7" selection-end-line="58" selection-end-column="7" />
+        <state relative-caret-position="162">
+          <caret line="62" column="29" selection-start-line="62" selection-start-column="29" selection-end-line="62" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/com/halias/civilizationtiles/TileTextures.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1254">
+          <caret line="120" column="18" selection-start-line="120" selection-start-column="18" selection-end-line="120" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/com/halias/civilizationtiles/CharWorldMap.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="47" column="33" selection-start-line="47" selection-start-column="33" selection-end-line="47" selection-end-column="33" />
+        <state relative-caret-position="4250">
+          <caret line="271" column="66" selection-start-line="271" selection-start-column="66" selection-end-line="271" selection-end-column="66" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#6081#6082#0" expanded="true" />
+            <element signature="e#7275#7276#0" expanded="true" />
+            <element signature="e#7317#7318#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/com/halias/civilizationtiles/WorldTile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="305">
+          <caret line="50" column="77" selection-start-line="50" selection-start-column="77" selection-end-line="50" selection-end-column="77" />
         </state>
       </provider>
     </entry>

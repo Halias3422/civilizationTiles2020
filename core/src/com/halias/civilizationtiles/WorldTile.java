@@ -11,22 +11,16 @@ public class WorldTile
     int             x;
     int             y;
     char            tileType;
-    int             hasTree;
-    int             rand;
 
-    public WorldTile(char intTileType, int posX, int posY, int worldX, int worldY)
+    public WorldTile(char intTileType, int posX, int posY, int worldX, int worldY, int worldZ)
     {
-        hasTree = 0;
-        if (intTileType == 'F' && random.nextInt(11) < 8 && posY < worldY - 3)
-        {
-            System.out.println("posY = " + posY + "worldY = " + worldY);
-            hasTree = 1;
-        }
         tileType = intTileType;
             x = posX * 16;
             y = posY * 4;
         if ((posY + 1) % 2 == 0)
             x += 8;
+        if (worldZ > 1)
+            y += worldZ;
     }
     public WorldTile(int posX, int posY)
     {
@@ -49,19 +43,14 @@ public class WorldTile
         return (tileType);
     }
 
-    public int  getIfTree()
-    {
-        return (hasTree);
-    }
-
-    public void print(SpriteBatch batch, TileTextures TileTextures)
+    public void print(SpriteBatch batch, char[][][] worldMap, TileTextures TileTextures, int z, int tabX, int tabY)
     {
         if (tileType == 'V')
             return ;
         else if (tileType == 'G')
-            TileTextures.printGrassSprite(batch, x, y);
+            TileTextures.printGrassSprite(batch, worldMap, x, y, z, tabX, tabY);
         else if (tileType == 'F')
-            TileTextures.printForestSprite(batch,x , y);
+            TileTextures.printForestSprite(batch, worldMap, x, y, z, tabX, tabY);
         else if (tileType == 'S')
             TileTextures.printSandSprite(batch,x , y);
         else if (tileType == 'W')
@@ -69,7 +58,7 @@ public class WorldTile
         else if (tileType == 'w')
             TileTextures.printShallowWaterSprite(batch, x, y);
         else if (tileType == 'D')
-            TileTextures.printDirtSprite(batch, x, y);
+            TileTextures.printDirtSprite(batch, worldMap, x , y, z, tabX, tabY);
     }
     public void printObject(SpriteBatch batch, String object, TileTextures TileTextures)
     {
