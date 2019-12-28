@@ -2,6 +2,7 @@ package com.halias.civilizationtiles;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -24,6 +25,9 @@ public class CivilizationTiles extends ApplicationAdapter {
 	private int				   	  worldSizeX;
 	private int					  worldSizeY;
 	private int					  worldSizeZ;
+	private int					  offsetX;
+	private int				      offsetY;
+	private int					  zoomView;
 
 	private TileTextures		  TileTextures;
 	private CharWorldMap		  CharWorldMap;
@@ -38,9 +42,12 @@ public class CivilizationTiles extends ApplicationAdapter {
 		//SCREEN_HEIGHT = Gdx.graphics.getHeight();
 		viewport = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT, camera);
 
-		worldSizeY = 60;
-		worldSizeX = 20;
+		worldSizeY = 60 * 4;
+		worldSizeX = 20 * 4;
 		worldSizeZ = 100;
+		offsetX = 0;
+		offsetY = 0;
+		zoomView = 0;
 		TileTextures = new TileTextures(worldSizeY, worldSizeX);
 		CharWorldMap = new CharWorldMap(worldSizeX, worldSizeY, worldSizeZ);
 		NatureObjects = new NatureObjects(CharWorldMap.getCharWorldMap(), worldSizeX, worldSizeY, worldSizeZ);
@@ -48,6 +55,18 @@ public class CivilizationTiles extends ApplicationAdapter {
 
 	@Override
 	public void render () {
+		if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && offsetX > -10)
+			offsetX--;
+		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && offsetX < worldSizeX - 10)
+			offsetX++;
+		if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && offsetY > -30)
+			offsetY -= 3;
+		if (Gdx.input.isKeyPressed(Input.Keys.UP) && offsetY < worldSizeY - 30)
+			offsetY += 3;
+		if (Gdx.input.isKeyJustPressed(Input.Keys.W) && zoomView < 8)
+		    zoomView += 4;
+		else if (Gdx.input.isKeyJustPressed(Input.Keys.Q) && zoomView > -8)
+		    zoomView -= 4;
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
 		Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -56,7 +75,7 @@ public class CivilizationTiles extends ApplicationAdapter {
 
 		batch.begin();
 		batch.draw(background, 0, 0);
-		CharWorldMap.printMap(batch, NatureObjects, TileTextures);
+		CharWorldMap.printMap(batch, NatureObjects, TileTextures, offsetX, offsetY, zoomView);
 		batch.end();
 	}
 	

@@ -61,7 +61,7 @@ public class CharWorldMap
     private void createAllWorldLevels()
     {
         int nbAdded;
-        int percentChance = 50;
+        int percentChance = 30;
         for (int z = 1; z < height; z++)
         {
             nbAdded = 0;
@@ -248,7 +248,8 @@ public class CharWorldMap
         //System.out.println("THERE ARE " + countWater + " WATER TILES");
     }
 
-    public void printMap(SpriteBatch batch, NatureObjects NatureObjects, TileTextures TileTextures)
+    public void printMap(SpriteBatch batch, NatureObjects NatureObjects, TileTextures TileTextures,
+                         int offsetX, int offsetY, int zoomView)
     {
         for (int i = y - 1; i > - 1; i--)
         {
@@ -257,19 +258,20 @@ public class CharWorldMap
                 for (int z = 0; z < height
                         && worldMap[z][i][j] != '0' && worldMap[z][i][j] != 'V'; z++)
                 {
-                    printTile(batch, worldMap[z][i][j], TileTextures, z, j, i);
+                    printTile(batch, worldMap[z][i][j], TileTextures, z, j, i, offsetX, offsetY, zoomView);
                     if (z < height - 1 && worldMap[z + 1][i][j] == '0')
-                        NatureObjects.printObject(batch, TileTextures, worldMap, j, i, z);
+                        NatureObjects.printObject(batch, TileTextures, worldMap, j, i, z, offsetX,
+                                offsetY, zoomView);
                 }
             }
         }
     }
 
     private void printTile(SpriteBatch batch, char tileType, TileTextures TileTextures,
-                           int z, int posX, int posY)
+                           int z, int posX, int posY, int offsetX, int offsetY, int zoomView)
     {
-       WorldTile Current = new WorldTile(tileType, posX, posY, x, y, z);
-       Current.print(batch, worldMap, TileTextures, z, posX, posY);
+       WorldTile Current = new WorldTile(tileType, posX, posY, x, y, z, offsetX, offsetY, zoomView);
+       Current.print(batch, worldMap, TileTextures, z, posX, posY, zoomView);
     }
 
     public char[][][] getCharWorldMap()

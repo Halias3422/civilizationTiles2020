@@ -83,114 +83,133 @@ public class TileTextures
     }
 
     public void printGrassSprite(SpriteBatch batch, char[][][] worldMap, int x, int y, int z,
-                                 int tabX, int tabY)
+                                 int tabX, int tabY, int zoomView)
     {
         if (z == 0)
         {
+            grass.setSize(16 + zoomView, 8 + zoomView / 2);
             grass.setPosition(x, y);
             grass.draw(batch);
         }
         else if (isTopLeft(worldMap, tabX, tabY, z) == 1 && isTopRight(worldMap, tabX, tabY, z) == 1)
         {
+            elevatedGrassAll.setSize(16 + zoomView, 12 + zoomView / 2);
             elevatedGrassAll.setPosition(x, y);
             elevatedGrassAll.draw(batch);
         }
         else if (isTopRight(worldMap, tabX, tabY, z) == 1)
         {
+            elevatedGrassRight.setSize(16 + zoomView, 12 + zoomView / 2);
             elevatedGrassRight.setPosition(x, y);
             elevatedGrassRight.draw(batch);
         }
         else if (isTopLeft(worldMap, tabX, tabY, z) == 1)
         {
+            elevatedGrassLeft.setSize(16 + zoomView, 12 + zoomView / 2);
             elevatedGrassLeft.setPosition(x, y);
             elevatedGrassLeft.draw(batch);
         }
         else
         {
+            elevatedGrass.setSize(16 + zoomView, 12 + zoomView / 2);
             elevatedGrass.setPosition(x, y);
             elevatedGrass.draw(batch);
         }
     }
 
     public void printForestSprite(SpriteBatch batch, char[][][] worldMap, int x, int y, int z,
-                                  int tabX, int tabY)
+                                  int tabX, int tabY, int zoomView)
     {
         if (z == 0)
         {
+            forest.setSize(16 + zoomView, 8 + zoomView / 2);
             forest.setPosition(x, y);
             forest.draw(batch);
         }
         else if (isTopLeft(worldMap, tabX, tabY, z) == 1 && isTopRight(worldMap, tabX, tabY, z) == 1)
         {
+            elevatedForestAll.setSize(16 + zoomView, 12 + zoomView / 2);
             elevatedForestAll.setPosition(x, y);
             elevatedForestAll.draw(batch);
         }
         else if (isTopRight(worldMap, tabX, tabY, z) == 1)
         {
+            elevatedForestRight.setSize(16 + zoomView, 12 + zoomView / 2);
             elevatedForestRight.setPosition(x, y);
             elevatedForestRight.draw(batch);
         }
         else if (isTopLeft(worldMap, tabX, tabY, z) == 1)
         {
+            elevatedForestLeft.setSize(16 + zoomView, 12 + zoomView / 2);
             elevatedForestLeft.setPosition(x, y);
             elevatedForestLeft.draw(batch);
         }
         else
         {
+            elevatedForest.setSize(16 + zoomView, 12 + zoomView / 2);
             elevatedForest.setPosition(x, y);
             elevatedForest.draw(batch);
         }
     }
 
-    public void printTreeSprite(SpriteBatch batch, int x, int y)
+    public void printTreeSprite(SpriteBatch batch, int x, int y, int zoomView)
     {
+        tree.setSize(16 + zoomView, 16 + zoomView);
         tree.setPosition(x, y);
         tree.draw(batch);
     }
 
-    public void printSandSprite(SpriteBatch batch, int x, int y)
+    public void printSandSprite(SpriteBatch batch, int x, int y, int zoomView)
     {
+        sand.setSize(16 + zoomView, 8 + zoomView / 2);
         sand.setPosition(x, y);
         sand.draw(batch);
     }
 
-    public void printShallowWaterSprite(SpriteBatch batch, int x, int y)
+    public void printShallowWaterSprite(SpriteBatch batch, int x, int y, int zoomView)
     {
+        shallowWater.setSize(16 + zoomView, 8 + zoomView / 2);
         shallowWater.setPosition(x, y);
         shallowWater.draw(batch);
     }
 
-    public void printDeepWaterSprite(SpriteBatch batch, int x, int y)
+    public void printDeepWaterSprite(SpriteBatch batch, int x, int y, int zoomView)
     {
+        deepWater.setSize(16 + zoomView, 8 + zoomView / 2);
         deepWater.setPosition(x, y);
         deepWater.draw(batch);
     }
 
     public void printDirtSprite(SpriteBatch batch, char[][][] worldMap, int x, int y, int z,
-                                  int tabX, int tabY)
+                                  int tabX, int tabY, int zoomView)
     {
         if (z == 0)
         {
-            grass.setPosition(x, y);
-            grass.draw(batch);
+            dirt.setSize(16 + zoomView, 8 + zoomView / 2);
+            dirt.setPosition(x, y);
+            dirt.draw(batch);
         }
         else if (isTopLeft(worldMap, tabX, tabY, z) == 1 && isTopRight(worldMap, tabX, tabY, z) == 1)
         {
+            elevatedDirtAll.setSize(16 + zoomView, 12 + zoomView / 2);
             elevatedDirtAll.setPosition(x, y);
             elevatedDirtAll.draw(batch);
         }
         else if (isTopRight(worldMap, tabX, tabY, z) == 1)
         {
+            elevatedDirtRight.setSize(16 + zoomView, 12 + zoomView / 2);
             elevatedDirtRight.setPosition(x, y);
             elevatedDirtRight.draw(batch);
         }
         else if (isTopLeft(worldMap, tabX, tabY, z) == 1)
         {
+            elevatedDirtLeft.setSize(16 + zoomView, 12 + zoomView / 2);
             elevatedDirtLeft.setPosition(x, y);
             elevatedDirtLeft.draw(batch);
         }
         else
         {
+            elevatedDirt.setSize(16 + zoomView, 12 + zoomView / 2);
             elevatedDirt.setPosition(x, y);
             elevatedDirt.draw(batch);
         }

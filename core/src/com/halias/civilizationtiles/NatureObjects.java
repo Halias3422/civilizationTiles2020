@@ -51,19 +51,20 @@ public class NatureObjects
         }
     }
 
-    public void printObject(SpriteBatch batch, TileTextures TileTextures, char[][][] worldMap, int posX, int posY, int posZ)
+    public void printObject(SpriteBatch batch, TileTextures TileTextures, char[][][] worldMap,
+                            int posX, int posY, int posZ, int offsetX, int offsetY, int zoomView)
     {
         if (natureObjects[posZ][posY][posX] != '0' && natureObjects[posZ][posY][posX] != 'V')
         {
-            x = posX * 16;
-            y = posY * 4;
+            x = (posX - offsetX) * (16 + zoomView);
+            y = (posY - offsetY) * (4 + zoomView / 4);
             if ((posY + 1) % 2 == 0)
-                x += 8;
+                x += (8 + zoomView / 2);
             if (posZ > 0)
                 y += posZ + 4;
             if (worldMap[posZ][posY][posX] != 'F')
                 System.out.println("WTF??");
-            TileTextures.printTreeSprite(batch, x, y);
+            TileTextures.printTreeSprite(batch, x, y, zoomView);
         }
     }
 }
