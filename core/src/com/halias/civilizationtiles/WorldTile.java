@@ -12,17 +12,17 @@ public class WorldTile
     int             y;
     char            tileType;
 
-    public WorldTile(char intTileType, int posX, int posY, int worldX, int worldY, int worldZ,
-                     int offsetX, int offsetY, int zoomView)
+    public WorldTile(char intTileType, int posX, int posY, int worldX, int worldY, int worldZ)
     {
         tileType = intTileType;
-            x = (posX - offsetX) * (16 + zoomView);
-            y = (posY - offsetY) * (4 + zoomView / 4);
+            x = posX * 16;
+            y = posY * 4;
         if ((posY + 1) % 2 == 0)
-            x += (8 + zoomView / 2);
+            x += 8;
         if (worldZ > 1)
             y += worldZ;
     }
+
     public WorldTile(int posX, int posY)
     {
         x = posX;
@@ -45,26 +45,26 @@ public class WorldTile
     }
 
     public void print(SpriteBatch batch, char[][][] worldMap, TileTextures TileTextures,
-                      int z, int tabX, int tabY, int zoomView)
+                      int z, int tabX, int tabY)
     {
         if (tileType == 'V')
             return ;
         else if (tileType == 'G')
-            TileTextures.printGrassSprite(batch, worldMap, x, y, z, tabX, tabY, zoomView);
+            TileTextures.printGrassSprite(batch, worldMap, x, y, z, tabX, tabY);
         else if (tileType == 'F')
-            TileTextures.printForestSprite(batch, worldMap, x, y, z, tabX, tabY, zoomView);
+            TileTextures.printForestSprite(batch, worldMap, x, y, z, tabX, tabY);
         else if (tileType == 'S')
-            TileTextures.printSandSprite(batch,x , y, zoomView);
+            TileTextures.printSandSprite(batch,x , y);
         else if (tileType == 'W')
-            TileTextures.printDeepWaterSprite(batch, x, y, zoomView);
+            TileTextures.printDeepWaterSprite(batch, x, y);
         else if (tileType == 'w')
-            TileTextures.printShallowWaterSprite(batch, x, y, zoomView);
+            TileTextures.printShallowWaterSprite(batch, x, y);
         else if (tileType == 'D')
-            TileTextures.printDirtSprite(batch, worldMap, x , y, z, tabX, tabY, zoomView);
+            TileTextures.printDirtSprite(batch, worldMap, x , y, z, tabX, tabY);
     }
-    public void printObject(SpriteBatch batch, String object, TileTextures TileTextures, int zoomView)
+    public void printObject(SpriteBatch batch, String object, TileTextures TileTextures)
     {
         if (object.equals("tree"))
-            TileTextures.printTreeSprite(batch, x, y, zoomView);
+            TileTextures.printTreeSprite(batch, x, y);
     }
 }

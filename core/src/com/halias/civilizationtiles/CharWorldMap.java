@@ -18,9 +18,17 @@ package com.halias.civilizationtiles;
 
 */
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.World;
 
+import java.io.BufferedReader;
+import java.nio.Buffer;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Random;
@@ -30,6 +38,10 @@ import static com.badlogic.gdx.math.MathUtils.random;
 public class CharWorldMap
 {
     private char[][][] worldMap;
+    private TileTextures TileTextures;
+    private NatureObjects NatureObjects;
+    private FrameBuffer   FB;
+    private Texture       BufferedMap;
 
     private int x;
     private int y;
@@ -42,8 +54,11 @@ public class CharWorldMap
     private int dirt;
     private int sand;
 
-    public CharWorldMap(int width, int length, int worldZ)
+    public CharWorldMap(int width, int length, int worldZ, float SCREEN_WIDTH, float SCREEN_HEIGHT,
+                        SpriteBatch batch)
     {
+        FB = new FrameBuffer(Pixmap.Format.RGBA8888, width * 16 + 8,
+                length * 8 + 8, false);
         x = width;
         y = length;
         height = worldZ;
@@ -55,8 +70,12 @@ public class CharWorldMap
         addNewTerrainToMap(water, 'w', 2, 6);
         fillMapWithGrass();
         createAllWorldLevels();
+        TileTextures = new TileTextures(length, width);
+        NatureObjects = new NatureObjects(worldMap, width, length, worldZ);
         debugPrintWorldMap(x, y);
+        storeWorldMapIntoFrameBuffer(batch, 2);
     }
+
 
     private void createAllWorldLevels()
     {
@@ -79,7 +98,6 @@ public class CharWorldMap
             }
             if (percentChance < 70)
                 percentChance += 5;
-            System.out.println("z = " + z + "percentchance = " + percentChance + "nb added = " + nbAdded);
         }
     }
 
@@ -123,7 +141,7 @@ public class CharWorldMap
     {
         tilesNumber = (width * length) - voidTiles;
         grass = random.nextInt((int)Math.round(tilesNumber * 0.9) + 1 -
-                (int)Math.round(tilesNumber * 0.75)) + (int)Math.round(tilesNumber * 0.75);
+                (int)Math.round(tilesNumber * 0.80)) + (int)Math.round(tilesNumber * 0.80);
         water = tilesNumber - grass;
         forest = random.nextInt((int)Math.round(grass * 0.70) + 1 -
                 (int)Math.round(grass * 0.40)) + (int)Math.round(grass * 0.40);
@@ -154,6 +172,7 @@ public class CharWorldMap
 
         //Positioning Texture on map according to size
 
+        System.out.println("OriginNB of " + tileType + " = " + terrainOriginsNb);
         for (int i = 0; i < terrainOriginsNb; i++)
         {
             do
@@ -248,9 +267,18 @@ public class CharWorldMap
         //System.out.println("THERE ARE " + countWater + " WATER TILES");
     }
 
-    public void printMap(SpriteBatch batch, NatureObjects NatureObjects, TileTextures TileTextures,
-                         int offsetX, int offsetY, int zoomView)
+    public void storeWorldMapIntoFrameBuffer(SpriteBatch batch, float zoomView)
     {
+  //      FB.dispose();
+    //    FB = new FrameBuffer(Pixmap.Format.RGBA8888, Math.round((x * 16 + 8) * zoomView),
+      //          Math.round((y * 8 + 8) * zoomView), false);
+        FB.begin();
+        batch.begin();
+        Matrix4 matrix = new Matrix4();
+        matrix.setToOrtho2D(0, 0, x * 16 + 8, y * 8 + 8);
+        batch.setProjectionMatrix(matrix);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         for (int i = y - 1; i > - 1; i--)
         {
             for (int j = 0; j < x; j++)
@@ -258,20 +286,29 @@ public class CharWorldMap
                 for (int z = 0; z < height
                         && worldMap[z][i][j] != '0' && worldMap[z][i][j] != 'V'; z++)
                 {
-                    printTile(batch, worldMap[z][i][j], TileTextures, z, j, i, offsetX, offsetY, zoomView);
+                    printTile(batch, worldMap[z][i][j], TileTextures, z, j, i);
                     if (z < height - 1 && worldMap[z + 1][i][j] == '0')
-                        NatureObjects.printObject(batch, TileTextures, worldMap, j, i, z, offsetX,
-                                offsetY, zoomView);
+                        NatureObjects.printObject(batch, TileTextures, worldMap, j, i, z);
                 }
             }
         }
+        batch.end();
+        FB.end();
+        BufferedMap = FB.getColorBufferTexture();
+        BufferedMap.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+    }
+
+    public void printMap(SpriteBatch batch, int SCREEN_WIDTH, int SCREEN_HEIGHT, float zoomView)
+    {
+        batch.draw(BufferedMap, 0, 0, Math.round((x * 16 + 8) * zoomView), Math.round((y * 8 + 8) * zoomView),
+                0, 0, x * 16 + 8, y * 8 + 8, false, true);
     }
 
     private void printTile(SpriteBatch batch, char tileType, TileTextures TileTextures,
-                           int z, int posX, int posY, int offsetX, int offsetY, int zoomView)
+                           int z, int posX, int posY)
     {
-       WorldTile Current = new WorldTile(tileType, posX, posY, x, y, z, offsetX, offsetY, zoomView);
-       Current.print(batch, worldMap, TileTextures, z, posX, posY, zoomView);
+       WorldTile Current = new WorldTile(tileType, posX, posY, x, y, z);
+       Current.print(batch, worldMap, TileTextures, z, posX, posY);
     }
 
     public char[][][] getCharWorldMap()
