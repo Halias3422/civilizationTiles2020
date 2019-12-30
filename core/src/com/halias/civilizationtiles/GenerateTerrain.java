@@ -22,7 +22,7 @@ public class GenerateTerrain
         worldY = totalY;
         nextSpawn = new int[4];
         tileList = new LinkedList<WorldTile>();
-        for (int tilesNb = 0; tilesNb < size - 1; tilesNb++)
+        for (int tilesNb = 0; tilesNb < size; tilesNb++)
         {
            findAvailableDirections(worldMap, tileType);
            do
@@ -65,11 +65,13 @@ public class GenerateTerrain
             if (check == 0 && tileList.size() > 0)
             {
                 x = tileList.get(tileList.size() - 1).getX();
-                y = tileList.get(tileList.size() - 1).getX();
+                y = tileList.get(tileList.size() - 1).getY();
                 tileList.removeLast();
             }
             else if (check == 0)
+            {
                 determineNewSpawnPoint(worldMap);
+            }
         } while (check == 0);
     }
 
@@ -77,6 +79,7 @@ public class GenerateTerrain
     {
         do
         {
+            System.out.println("JE PASSE ICIIII");
             x = random.nextInt(worldX);
             y = random.nextInt(worldY);
         } while (worldMap[y][x] != '0');

@@ -50,8 +50,7 @@ public class CivilizationTiles extends ApplicationAdapter {
 		worldSizeZ = 100;
 		offsetX = 0;
 		offsetY = 0;
-		zoomView = 0.10F;
-		prevZoomView = 0.10F;
+//		camera.zoom = 2.2F;
 		CharWorldMap = new CharWorldMap(worldSizeX, worldSizeY, worldSizeZ,
 				SCREEN_WIDTH, SCREEN_HEIGHT, batch);
 	}
@@ -78,21 +77,13 @@ public class CivilizationTiles extends ApplicationAdapter {
 			camera.position.y += 2 * camera.zoom;
 			//offsetY += 3;
 		}
-		if (Gdx.input.isKeyPressed(Input.Keys.W) && camera.zoom < 2)
+		if (Gdx.input.isKeyPressed(Input.Keys.W)/* && camera.zoom < 4*/)
 		{
-		    camera.zoom += 0.005;
-		    System.out.println("zoom = " + camera.zoom);
+		    camera.zoom += 0.02;
 		}
 		else if (Gdx.input.isKeyPressed(Input.Keys.Q) && camera.zoom > 0.02)
 		{
-		    camera.zoom -= 0.005;
-			System.out.println("zoom = " + camera.zoom);
-		}
-		if (prevZoomView != zoomView)
-		{
-			CharWorldMap.storeWorldMapIntoFrameBuffer(batch, zoomView);
-			prevZoomView = zoomView;
-			System.out.println("zoomView = " + zoomView);
+		    camera.zoom -= 0.02;
 		}
 		camera.update();
 		//batch.setProjectionMatrix(camera.combined);
@@ -102,8 +93,7 @@ public class CivilizationTiles extends ApplicationAdapter {
 
 		batch.begin();
 		batch.draw(background, 0, 0);
-		CharWorldMap.printMap(batch, (int)SCREEN_WIDTH, (int)SCREEN_HEIGHT,
-				zoomView);
+		CharWorldMap.printMap(batch, (int)SCREEN_WIDTH, (int)SCREEN_HEIGHT);
 		batch.end();
 	}
 

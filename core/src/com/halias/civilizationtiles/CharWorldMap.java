@@ -65,15 +65,15 @@ public class CharWorldMap
         worldMap = new char[height][y][x];
         initWorldMap();
         fillGenerationVariables(width, length);
-        addNewTerrainToMap(forest, 'F', 1, 4);
-        addNewTerrainToMap(dirt, 'D', 2, 6);
-        addNewTerrainToMap(water, 'w', 2, 6);
+        addNewTerrainToMap(water, 'w', 4, 12);
+        addNewTerrainToMap(forest, 'F', 2, 8);
+        addNewTerrainToMap(dirt, 'D', 4, 12);
         fillMapWithGrass();
         createAllWorldLevels();
         TileTextures = new TileTextures(length, width);
         NatureObjects = new NatureObjects(worldMap, width, length, worldZ);
         debugPrintWorldMap(x, y);
-        storeWorldMapIntoFrameBuffer(batch, 2);
+        storeWorldMapIntoFrameBuffer(batch, 0.05F);
     }
 
 
@@ -141,10 +141,10 @@ public class CharWorldMap
     {
         tilesNumber = (width * length) - voidTiles;
         grass = random.nextInt((int)Math.round(tilesNumber * 0.9) + 1 -
-                (int)Math.round(tilesNumber * 0.80)) + (int)Math.round(tilesNumber * 0.80);
+                (int)Math.round(tilesNumber * 0.9)) + (int)Math.round(tilesNumber * 0.9);
         water = tilesNumber - grass;
-        forest = random.nextInt((int)Math.round(grass * 0.70) + 1 -
-                (int)Math.round(grass * 0.40)) + (int)Math.round(grass * 0.40);
+        forest = random.nextInt((int)Math.round(grass * 0.80) + 1 -
+                (int)Math.round(grass * 0.60)) + (int)Math.round(grass * 0.60);
         dirt = random.nextInt((int)Math.round(grass * 0.10) + 1 -
                 (int)Math.round(grass * 0.02)) + (int)Math.round(grass * 0.02);
         grass -= forest + dirt;
@@ -162,11 +162,12 @@ public class CharWorldMap
 
         //Deciding Texture Origin Points number and each respective size
 
-        for (int i = 0; i < terrainOriginsNb - 1; i++)
+        for (int i = 0; i < terrainOriginsNb; i++)
         {
             terrainPoints[i] = random.nextInt((int) Math.round((terrainSize - addedSizes) * 0.90) + 1 -
                     (int) Math.round((terrainSize - addedSizes) * 0.10)) + (int) Math.round((terrainSize - addedSizes) * 0.10);
             addedSizes += terrainPoints[i];
+            System.out.println("terrain[ " + i + "] = " + terrainPoints[i]);
         }
         terrainPoints[terrainOriginsNb - 1] = terrainSize - addedSizes;
 
@@ -298,9 +299,9 @@ public class CharWorldMap
         BufferedMap.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
     }
 
-    public void printMap(SpriteBatch batch, int SCREEN_WIDTH, int SCREEN_HEIGHT, float zoomView)
+    public void printMap(SpriteBatch batch, int SCREEN_WIDTH, int SCREEN_HEIGHT)
     {
-        batch.draw(BufferedMap, 0, 0, Math.round((x * 16 + 8) * zoomView), Math.round((y * 8 + 8) * zoomView),
+        batch.draw(BufferedMap, 0, 0, Math.round((x * 16 + 8)), Math.round((y * 8 + 8)),
                 0, 0, x * 16 + 8, y * 8 + 8, false, true);
     }
 
