@@ -61,6 +61,8 @@ public class WorldTile
             TileTextures.printShallowWaterSprite(batch, x, y);
         else if (tileType == 'D')
             TileTextures.printDirtSprite(batch, worldMap, x , y, z, tabX, tabY);
+        else if (tileType == 'H')
+            TileTextures.printHiddenTile(batch, worldMap, x, y, z, tabX, tabY);
     }
     public void printObject(SpriteBatch batch, String object, TileTextures TileTextures)
     {

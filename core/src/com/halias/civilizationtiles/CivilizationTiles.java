@@ -31,10 +31,10 @@ public class CivilizationTiles extends ApplicationAdapter {
 	private int				      offsetY;
 	private float				  prevZoomView;
 	private float				  zoomView;
+	private int 				  altitudeLevel;
+	private int					  highestAltitude;
 
-	private TileTextures		  TileTextures;
 	private CharWorldMap		  CharWorldMap;
-	private NatureObjects		  NatureObjects;
 
 	@Override
 	public void create () {
@@ -45,14 +45,16 @@ public class CivilizationTiles extends ApplicationAdapter {
 		//SCREEN_HEIGHT = Gdx.graphics.getHeight();
 		viewport = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT, camera);
 
-		worldSizeY = 60 * 20;
-		worldSizeX = 20 * 20;
-		worldSizeZ = 100;
+		worldSizeY = 60 * 5;
+		worldSizeX = 20 * 5;
+		worldSizeZ = 1000;
 		offsetX = 0;
 		offsetY = 0;
 //		camera.zoom = 2.2F;
 		CharWorldMap = new CharWorldMap(worldSizeX, worldSizeY, worldSizeZ,
 				SCREEN_WIDTH, SCREEN_HEIGHT, batch);
+		altitudeLevel = CharWorldMap.retreiveHighestAltitude();
+		highestAltitude = altitudeLevel;
 	}
 
 	@Override
@@ -79,12 +81,17 @@ public class CivilizationTiles extends ApplicationAdapter {
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.W)/* && camera.zoom < 4*/)
 		{
-		    camera.zoom += 0.02;
+		    camera.zoom += 0.04;
 		}
 		else if (Gdx.input.isKeyPressed(Input.Keys.Q) && camera.zoom > 0.02)
 		{
-		    camera.zoom -= 0.02;
+		    camera.zoom -= 0.04;
 		}
+		if (Gdx.input.isKeyPressed(Input.Keys.E) && altitudeLevel > 0)
+			altitudeLevel--;
+		else if (Gdx.input.isKeyPressed(Input.Keys.R) && altitudeLevel < highestAltitude)
+			altitudeLevel++;
+		//System.out.println("altitudeLevel = " + altitudeLevel);
 		camera.update();
 		//batch.setProjectionMatrix(camera.combined);
 		Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -93,7 +100,7 @@ public class CivilizationTiles extends ApplicationAdapter {
 
 		batch.begin();
 		batch.draw(background, 0, 0);
-		CharWorldMap.printMap(batch, (int)SCREEN_WIDTH, (int)SCREEN_HEIGHT);
+		CharWorldMap.printMap(batch, (int)SCREEN_WIDTH, (int)SCREEN_HEIGHT, altitudeLevel);
 		batch.end();
 	}
 
@@ -101,6 +108,8 @@ public class CivilizationTiles extends ApplicationAdapter {
 	public void dispose () {
 		batch.dispose();
 		background.getTexture().dispose();
+		CharWorldMap.disposeNecessary();
+
 	}
 
 	@Override

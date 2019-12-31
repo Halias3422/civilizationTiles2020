@@ -79,7 +79,6 @@ public class GenerateTerrain
     {
         do
         {
-            System.out.println("JE PASSE ICIIII");
             x = random.nextInt(worldX);
             y = random.nextInt(worldY);
         } while (worldMap[y][x] != '0');
