@@ -42,7 +42,10 @@ public class Altitude
                 randY = random.nextInt(y);
             } while (altitude[randY][randX] != 0);
 
-            altitude[randY][randX] = random.nextInt(height - (height - 10)) + (height - 10);
+            if (height > 1)
+                altitude[randY][randX] = random.nextInt(height - (height / 2)) + (height / 2);
+            else
+                altitude[randY][randX] = 1;
             posList.addLast(new int[] {randX, randY});
             for (int j = 0; j < mountainSize[i]; j++)
             {
@@ -87,7 +90,8 @@ public class Altitude
                     if ((i + 1) % 2 != 0)
                     {
                         if ((i > 0  && ((j > 0 && currAlt < altitude[i - 1][j - 1]) || currAlt < altitude[i - 1][j]))
-                        || (i < worldY - 1 && ( j > 0 && currAlt < altitude[i + 1][j - 1]) || currAlt < altitude[i + 1][j]))
+                        || (i < worldY - 1 && ( j > 0 && currAlt < altitude[i + 1][j - 1]) ||
+                                (i < worldY - 1 && currAlt < altitude[i + 1][j])))
                         {
                             if (random.nextInt(10) < 5)
                                 altitude[i][j] = altitude[i][j] * 2 + 1;
@@ -218,7 +222,7 @@ public class Altitude
     {
         altitude = new int[worldY][worldX];
         posList = new LinkedList<int[]>();
-        mountainPoints = random.nextInt(8 - 2) + 2;
+        mountainPoints = random.nextInt(10 - 4) + 4;
         mountainSize = new int[mountainPoints];
         totalMountainTiles = random.nextInt((int) Math.round((worldX * worldY * 0.6) -
                 (int) Math.round(worldX * worldY * 0.4)) + (int) Math.round(worldX * worldY * 0.4));
@@ -237,6 +241,8 @@ public class Altitude
             addedSize = random.nextInt(totalMountainTiles);
             mountainSize[i] = addedSize;
             totalMountainTiles -= addedSize;
+            if (totalMountainTiles <= 0)
+                break ;
         }
         mountainSize[mountainPoints - 1] = totalMountainTiles;
     }

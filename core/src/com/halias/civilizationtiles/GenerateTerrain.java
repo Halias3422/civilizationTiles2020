@@ -13,6 +13,7 @@ public class GenerateTerrain
     int             y;
     int             worldX;
     int             worldY;
+    int             done;
 
     public GenerateTerrain(char[][] worldMap, char tileType, int size, int firstX, int firstY, int totalX, int totalY)
     {
@@ -20,11 +21,16 @@ public class GenerateTerrain
         y = firstY;
         worldX = totalX;
         worldY = totalY;
+        done = 0;
         nextSpawn = new int[4];
         tileList = new LinkedList<WorldTile>();
         for (int tilesNb = 0; tilesNb < size; tilesNb++)
         {
-           findAvailableDirections(worldMap, tileType);
+           if (findAvailableDirections(worldMap, tileType) == 0)
+           {
+               done = 1;
+               return;
+           }
            do
            {
                nextDirection = random.nextInt(4);
@@ -41,7 +47,7 @@ public class GenerateTerrain
         }
     }
 
-    private void findAvailableDirections(char[][] worldMap, char tileType)
+    private int findAvailableDirections(char[][] worldMap, char tileType)
     {
         int check = 0;
 
@@ -70,9 +76,29 @@ public class GenerateTerrain
             }
             else if (check == 0)
             {
+                if (noSpawningPointAvailable(worldMap) == 0)
+                    return (0);
                 determineNewSpawnPoint(worldMap);
             }
         } while (check == 0);
+        return (1);
+    }
+
+    private int noSpawningPointAvailable(char[][] worldMap)
+    {
+        int check = 0;
+
+        for (int i = 0; i < worldY; i++)
+        {
+            for (int j = 0; j < worldX; j++)
+            {
+               if (worldMap[i][j] == '0' && ((i < worldY - 1 && worldMap[i + 1][j] == '0') ||
+                       (i > 0 && worldMap[i - 1][j] == '0') || (j < worldX - 1 && worldMap[i][j + 1] == '0') ||
+                       (j > 0 && worldMap[i][j - 1] == '0')))
+                   check++;
+            }
+        }
+        return (check);
     }
 
     private void determineNewSpawnPoint(char[][] worldMap)
@@ -82,5 +108,10 @@ public class GenerateTerrain
             x = random.nextInt(worldX);
             y = random.nextInt(worldY);
         } while (worldMap[y][x] != '0');
+    }
+
+    public int checkIfDone()
+    {
+        return (done);
     }
 }

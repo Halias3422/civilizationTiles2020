@@ -2,6 +2,9 @@ package com.halias.civilizationtiles;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.util.LinkedList;
+import java.util.ListIterator;
+
 import static com.badlogic.gdx.math.MathUtils.random;
 
 /*
@@ -14,11 +17,11 @@ public class NatureObjects
     private int z;
     private int x;
     private int y;
-    private char[][][] natureObjects;
+    private String[][][] natureObjects;
 
     public NatureObjects(char[][][] worldMap, int worldX, int worldY, int worldZ)
     {
-       natureObjects = new char[worldZ][worldY][worldX];
+       natureObjects = new String[worldZ][worldY][worldX];
        initNatureObjects(worldX, worldY, worldZ);
        for (int i = worldY - 1; i > -1; i--)
        {
@@ -28,14 +31,18 @@ public class NatureObjects
                while (z < worldZ - 1 && worldMap[z + 1][i][j] != '0' && worldMap[z + 1][i][j] != 'V')
                    z++;
               if (worldMap[z][i][j] == 'F' && random.nextInt(100) < 70)
-                  natureObjects[z][i][j] = 'T';
-
+              {
+                  natureObjects[z][i][j] = "tree1";
+              }
            }
        }
     }
 
     private void initNatureObjects(int worldX, int worldY, int worldZ)
     {
+        x = worldX;
+        y = worldY;
+        z = worldZ;
         for (int z = 0; z < worldZ; z++)
         {
             for (int i = 0; i < worldY; i++)
@@ -43,15 +50,41 @@ public class NatureObjects
                 for (int j = 0; j < worldX; j++)
                 {
                     if ((j == worldX - 1 || i == worldY - 1) && i % 2 != 0)
-                        natureObjects[z][i][j] = 'V';
+                        natureObjects[z][i][j] = "V";
                     else
-                        natureObjects[z][i][j] = '0';
+                        natureObjects[z][i][j] = "0";
                 }
             }
         }
     }
 
-    public void printObject(SpriteBatch batch, TileTextures TileTextures, char[][][] worldMap,
+    public void printMap(SpriteBatch batch, ObjectTextures ObjectTextures, int[][] altitude,
+                         int altitudeLevel)
+    {
+        int posX;
+        int posY;
+        for (int alt = 0; alt <= altitudeLevel; alt++)
+        {
+            for (int row = y - 1; row > -1; row--)
+            {
+                for (int tile = 0; tile < x; tile++)
+                {
+                    if (natureObjects[alt][row][tile] != "0")
+                    {
+                        posX = tile * 16;
+                        posY = row * 4 + alt * 6 + 6;
+                        if ((row + 1) % 2 == 0)
+                            posX += 8;
+                        if (natureObjects[alt][row][tile].equals("tree1"))
+                            ObjectTextures.printTree1Sprite(batch, row, tile, posX, posY, alt,
+                                    altitude, altitudeLevel);
+                    }
+                }
+            }
+        }
+    }
+
+/*    public void printObject(SpriteBatch batch, TileTextures TileTextures, char[][][] worldMap,
                             int posX, int posY, int posZ)
     {
         if (natureObjects[posZ][posY][posX] != '0' && natureObjects[posZ][posY][posX] != 'V')
@@ -61,10 +94,8 @@ public class NatureObjects
             if ((posY + 1) % 2 == 0)
                 x += 8;
             if (posZ > 0)
-                y += posZ + 4;
-            if (worldMap[posZ][posY][posX] != 'F')
-                System.out.println("WTF??");
-            TileTextures.printTreeSprite(batch, x, y);
+                y += (posZ * 3) + 8;
+            ObjectTextures.printTree1Sprite(batch, x, y);
         }
-    }
+    }*/
 }

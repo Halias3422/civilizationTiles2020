@@ -5,7 +5,6 @@ package com.halias.civilizationtiles;
     TILES TYPES:
     F - FOREST
     G - GRASS
-    S - SAND
     w - SHALLOW WATER
     W - SEA WATER
     V - VOID TILE
@@ -41,10 +40,11 @@ public class CharWorldMap
     private char[][][] worldMap;
     private int[][]   altitude;
     private TileTextures TileTextures;
+    private ObjectTextures ObjectTextures;
     private NatureObjects NatureObjects;
     private Altitude      Altitude;
     private FrameBuffer[]   FB;
-    private Texture[]       BufferedMap;
+    private Texture[]      BufferedMap;
 
     private int x;
     private int y;
@@ -70,17 +70,24 @@ public class CharWorldMap
         initWorldMap();
         fillGenerationVariables(width, length);
         addNewTerrainToMap(water, 'w', 4, 12);
+        System.out.println("water added");
         addNewTerrainToMap(dirt, 'D', 8, 20);
+        System.out.println("dirt added");
         addNewTerrainToMap(forest, 'F', 2, 8);
+        System.out.println("forest added");
         fillMapWithGrass();
+        System.out.println("grass added");
         System.out.println("level 0 FILLED");
         Altitude = new Altitude(x, y, height, worldMap);
         System.out.println("altitude done");
         altitude = Altitude.retreiveIntTab();
         highestAltitude = Altitude.findHighestAltitude();
+        System.out.println("HIGHEST ALTITUDE = " + highestAltitude);
+        System.out.println("WORLDZ = " + worldZ);
         createAllWorldLevels();
         System.out.println("world map filled with ALL ALTITUDES");
         TileTextures = new TileTextures(length, width);
+        ObjectTextures = new ObjectTextures(length, width, height, worldMap);
         NatureObjects = new NatureObjects(worldMap, width, length, worldZ);
         System.out.println("TileTextures and NatureObjects INIT");
     //    debugPrintWorldMap(x, y);
@@ -203,6 +210,8 @@ public class CharWorldMap
             } while (worldMap[0][randY][randX] != '0' || worldMap[0][randY][randX] == 'V');
             worldMap[0][randY][randX] = tileType;
            GenerateTerrain = new GenerateTerrain(worldMap[0], tileType, terrainPoints[i], randX, randY, x, y);
+           if (GenerateTerrain.checkIfDone() == 1)
+               break ;
         }
         if (tileType == 'w')
         addDeepWater();
@@ -290,63 +299,57 @@ public class CharWorldMap
 
     public void storeWorldMapIntoFrameBuffer(SpriteBatch batch, float zoomView)
     {
-        while (highestAltitude % 4 != 0)
-            highestAltitude++;
-        highestAltitude = highestAltitude / 4;
         FB = new FrameBuffer[highestAltitude + 1];
         BufferedMap = new Texture[highestAltitude + 1];
-        for (int fbNb = 0; fbNb < highestAltitude + 1; fbNb++)
+        Matrix4 matrix = new Matrix4();
+
+        for (int altitude = 0; altitude < highestAltitude + 1; altitude++)
         {
-            FB[fbNb] = new FrameBuffer(Pixmap.Format.RGBA8888, x * 16 + 8,
-                    y * 8 + 8, false);
-            FB[fbNb].begin();
+            FB[altitude] = new FrameBuffer(Pixmap.Format.RGBA8888, x * 16 + 8, y * 7, false);
+            FB[altitude].begin();
             batch.begin();
-            Matrix4 matrix = new Matrix4();
-            matrix.setToOrtho2D(0, 0, x * 16 + 8, y * 8 + 8);
+            matrix.setToOrtho2D(0, altitude * 6, x * 16 + 8, y * 7);
             batch.setProjectionMatrix(matrix);
-            Gdx.gl.glClearColor(0, 0, 0, 1);
+            Gdx.gl.glClearColor(0, 0, 0, 0);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-            for (int i = y - 1; i > -1; i--)
+            for (int row = y - 1; row > -1; row--)
             {
-                for (int j = 0; j < x; j++)
+                for (int tile = 0; tile < x; tile++)
                 {
-                    for (int z = 0; z < height && z <= fbNb * 4
-                            && worldMap[z][i][j] != '0' && worldMap[z][i][j] != 'V'; z++)
-                    {
-                        printTile(batch, worldMap[z][i][j], TileTextures, z, j, i, fbNb);
-                        if (z < height - 1 && worldMap[z + 1][i][j] == '0')
-                            NatureObjects.printObject(batch, TileTextures, worldMap, j, i, z);
-                    }
+                    if (worldMap[altitude][row][tile] != '0' && worldMap[altitude][row][tile] != 'V')
+                        printTile(batch, worldMap[altitude][row][tile], TileTextures,
+                                altitude, tile, row);
+
                 }
             }
             batch.end();
-            FB[fbNb].end();
-            BufferedMap[fbNb] = FB[fbNb].getColorBufferTexture();
-            BufferedMap[fbNb].setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-            System.out.println("BUFFER " + fbNb + " CREATED");
+            FB[altitude].end();
+            BufferedMap[altitude] = FB[altitude].getColorBufferTexture();
+            BufferedMap[altitude].setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         }
     }
 
     public void printMap(SpriteBatch batch, int SCREEN_WIDTH, int SCREEN_HEIGHT, int altitudeLevel)
     {
-        batch.draw(BufferedMap[altitudeLevel], 0, 0, Math.round((x * 16 + 8)), Math.round((y * 8 + 8)),
-                0, 0, x * 16 + 8, y * 8 + 8, false, true);
+        for (int alti = 0; alti < altitudeLevel + 1; alti++)
+        {
+            batch.draw(BufferedMap[alti], 0, alti * 6, Math.round(x * 16 + 8), y * 7, 0, 0,
+                    x * 16 + 8, y * 7, false, true);
+        }
+        NatureObjects.printMap(batch, ObjectTextures, altitude, altitudeLevel);
     }
 
     private void printTile(SpriteBatch batch, char tileType, TileTextures TileTextures,
-                           int z, int posX, int posY, int fbNb)
+                           int z, int posX, int posY)
     {
         WorldTile Current;
-        if (fbNb > 0 && z == fbNb * 4 && worldMap[z + 1][posY][posX] != '0')
+        Current = new WorldTile(tileType, posX, posY, x, y, z);
+        Current.print(batch, worldMap, TileTextures, z, posX, posY);
+        if (z < height - 1 && worldMap[z + 1][posY][posX] != '0')
+        {
             Current = new WorldTile('H', posX, posY, x, y, z);
-        else
-           Current = new WorldTile(tileType, posX, posY, x, y, z);
-       Current.print(batch, worldMap, TileTextures, z, posX, posY);
-       if (fbNb == 0 && z == 0 && worldMap[z + 1][posY][posX] != '0')
-       {
-           Current = new WorldTile('H', posX, posY, x, y, z + 1);
-           Current.print(batch, worldMap, TileTextures, z, posX, posY);
-       }
+            Current.print(batch, worldMap, TileTextures, x, posX, posY);
+        }
     }
 
     public char[][][] getCharWorldMap()
@@ -361,11 +364,12 @@ public class CharWorldMap
 
     public void disposeNecessary()
     {
-        for (int i = 0; i < highestAltitude + 1; i++)
-        {
-            FB[i].dispose();
-            BufferedMap[i].dispose();
-        }
+            for (int i = 0; i < height; i++)
+            {
+                FB[i].dispose();
+                BufferedMap[i].dispose();
+            }
         TileTextures.disposeNecessary();
+        ObjectTextures.disposeNecessary();
     }
 }

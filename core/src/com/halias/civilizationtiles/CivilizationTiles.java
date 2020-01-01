@@ -45,9 +45,9 @@ public class CivilizationTiles extends ApplicationAdapter {
 		//SCREEN_HEIGHT = Gdx.graphics.getHeight();
 		viewport = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT, camera);
 
-		worldSizeY = 60 * 5;
-		worldSizeX = 20 * 5;
-		worldSizeZ = 1000;
+		worldSizeY = 60 * 2;
+		worldSizeX = 20 * 2;
+		worldSizeZ = 1 + 20;
 		offsetX = 0;
 		offsetY = 0;
 //		camera.zoom = 2.2F;
@@ -87,9 +87,9 @@ public class CivilizationTiles extends ApplicationAdapter {
 		{
 		    camera.zoom -= 0.04;
 		}
-		if (Gdx.input.isKeyPressed(Input.Keys.E) && altitudeLevel > 0)
+		if (Gdx.input.isKeyJustPressed(Input.Keys.E) && altitudeLevel > 0)
 			altitudeLevel--;
-		else if (Gdx.input.isKeyPressed(Input.Keys.R) && altitudeLevel < highestAltitude)
+		else if (Gdx.input.isKeyJustPressed(Input.Keys.R) && altitudeLevel < highestAltitude)
 			altitudeLevel++;
 		//System.out.println("altitudeLevel = " + altitudeLevel);
 		camera.update();
