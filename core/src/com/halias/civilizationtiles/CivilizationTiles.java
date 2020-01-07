@@ -3,17 +3,13 @@ package com.halias.civilizationtiles;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import java.util.LinkedList;
-import java.util.ListIterator;
 
 public class CivilizationTiles extends ApplicationAdapter {
 	private SpriteBatch 		  batch;
@@ -34,6 +30,7 @@ public class CivilizationTiles extends ApplicationAdapter {
 	private int					  highestAltitude;
 
 	private CharWorldMap		  CharWorldMap;
+	private NatureObjectsMap NatureObjectsMap;
 
 	@Override
 	public void create () {
@@ -46,7 +43,7 @@ public class CivilizationTiles extends ApplicationAdapter {
 
 		worldSizeY = 60 * 5;
 		worldSizeX = 20 * 5;
-		worldSizeZ = 1 + 30;
+		worldSizeZ = 1 + 10;
 		offsetX = 0;
 		offsetY = 0;
 //		camera.zoom = 2.2F;
@@ -54,6 +51,8 @@ public class CivilizationTiles extends ApplicationAdapter {
 				SCREEN_WIDTH, SCREEN_HEIGHT, batch);
 		altitudeLevel = CharWorldMap.retreiveHighestAltitude();
 		highestAltitude = altitudeLevel;
+		NatureObjectsMap = new NatureObjectsMap(CharWorldMap.getCharWorldMap(), worldSizeX,
+				worldSizeY, worldSizeZ, highestAltitude, CharWorldMap.getAltitude(), batch);
 	}
 
 	@Override
@@ -101,6 +100,7 @@ public class CivilizationTiles extends ApplicationAdapter {
 		batch.begin();
 		batch.draw(background, 0, 0);
 		CharWorldMap.printMap(batch, (int)SCREEN_WIDTH, (int)SCREEN_HEIGHT, altitudeLevel);
+		NatureObjectsMap.printMap(batch, altitudeLevel);
 		batch.end();
 	}
 

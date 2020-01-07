@@ -94,7 +94,7 @@ public class Altitude
                                 (i < worldY - 1 && currAlt < altitude[i + 1][j])))
                         {
                             if (random.nextInt(10) < 5)
-                                altitude[i][j] = altitude[i][j] * 2 + 1;
+                                altitude[i][j] = (altitude[i][j] * 2 + 1) + (altitude[i][j] / 4 + 1) ;
                             else
                                 altitude[i][j] += 4;
                             check++;
@@ -106,7 +106,7 @@ public class Altitude
                                 || (i < worldY - 1 && (currAlt < altitude[i + 1][j]) || (j < worldX - 1 && currAlt < altitude[i + 1][j + 1])))
                         {
                             if (random.nextInt(10) < 5)
-                                altitude[i][j] = altitude[i][j] * 2 + 1;
+                                altitude[i][j] = (altitude[i][j] * 2 + 1) + (altitude[i][j] / 4 + 1);
                             else
                                 altitude[i][j] += 4;
                             check++;

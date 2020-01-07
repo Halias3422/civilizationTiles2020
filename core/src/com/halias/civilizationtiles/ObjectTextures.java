@@ -12,7 +12,13 @@ public class ObjectTextures
 
     char[][][] tileMap;
 
-    private Sprite tree1;
+    private Sprite tree1Top;
+    private Sprite tree1LeftTop;
+    private Sprite tree1LeftBottom;
+    private Sprite tree1RightTop;
+    private Sprite tree1RightBottom;
+    private Sprite tree1Bottom;
+
     private Sprite peon;
 
     public ObjectTextures(int y, int x, int z, char[][][] worldMap)
@@ -21,14 +27,49 @@ public class ObjectTextures
         worldY = y;
         worldZ = z;
         tileMap = worldMap;
-        tree1 = new Sprite(new Texture("tree1.png"));
+        tree1Top = new Sprite(new Texture("tree1Top.png"));
+        tree1LeftTop = new Sprite(new Texture("tree1LeftTop.png"));
+        tree1LeftBottom = new Sprite(new Texture("tree1LeftBottom.png"));
+        tree1RightTop = new Sprite(new Texture("tree1RightTop.png"));
+        tree1RightBottom = new Sprite(new Texture("tree1RightBottom.png"));
+        tree1Bottom = new Sprite(new Texture("tree1Bottom.png"));
         peon = new Sprite(new Texture("peon.png"));
     }
 
-    public void printTree1Sprite(SpriteBatch batch, int x, int y)
+    public void printTree1Sprite(SpriteBatch batch, int x, int y, int printTop, int printBottom,
+                                 int printLeftTop, int printLeftBottom, int printRightTop,
+                                 int printRightBottom)
     {
-        tree1.setPosition(x, y);
-        tree1.draw(batch);
+       if (printTop == 1)
+       {
+        tree1Top.setPosition(x, y);
+        tree1Top.draw(batch);
+       }
+       if (printBottom == 1)
+       {
+           tree1Bottom.setPosition(x, y);
+           tree1Bottom.draw(batch);
+       }
+       if (printLeftTop == 1)
+       {
+           tree1LeftTop.setPosition(x, y);
+           tree1LeftTop.draw(batch);
+       }
+       if (printLeftBottom == 1)
+       {
+           tree1LeftBottom.setPosition(x, y);
+           tree1LeftBottom.draw(batch);
+       }
+       if (printRightTop == 1)
+       {
+           tree1RightTop.setPosition(x, y);
+           tree1RightTop.draw(batch);
+       }
+       if (printRightBottom == 1)
+       {
+           tree1RightBottom.setPosition(x, y);
+           tree1RightBottom.draw(batch);
+       }
     }
 
     public void printPeonSprite(SpriteBatch batch, int x, int y)
@@ -37,37 +78,14 @@ public class ObjectTextures
         peon.draw(batch);
     }
 
-   /* public void printTree1Sprite(SpriteBatch batch, int x, int y, int mapX, int mapY)
-    {
-        drawnRectangles = determineNecessaryDrawnRectangles((int)tree1.getWidth());
-        for (int i = 0; i < drawnRectangles; i++)
-        {
-            srcOffset.y = 0;
-            srcOffset.x = tree1.getWidth() / drawnRectangles * i;
-            if (i != 0 && i / 2 == 0 && mapX < worldX - 1)
-            {
-                mapX++;
-                x += 16;
-            }
-            if (mapY > 0 && worldZ > 0 && tileMap[1][mapY - 1][mapX] != '0')
-                FindSrcOffset(tree1, x, y, mapX, mapY, drawnRectangles);
-            //System.out.println("offset y = " + srcOffset.y + " offsetx = " + srcOffset.x);
-           // batch.draw(tree1.getTexture(), (float)x + srcOffset.x, (float)y + srcOffset.y, (int)srcOffset.x, 0,
-             //          (int)(tree1.getWidth() - srcOffset.x),
-               //        (int)(srcOffset.y));
-            if (srcOffset.y > -1)
-            {
-                if ((i + 1) % 2 != 0)
-                   batch.draw(tree1.getTexture(), x, y, 0, (int)srcOffset.y, (int)(tree1.getWidth() / 2), (int)(tree1.getHeight() - srcOffset.y));
-                if ((i + 1) % 2 == 0)
-                    batch.draw(tree1.getTexture(), (float)(x + srcOffset.x), (float)y, (int)srcOffset.x, 0, (int)(tree1.getWidth() - srcOffset.x), (int)tree1.getHeight());
-            }
-        }
-        //batch.draw(tree1, x, y);
-    }*/
-
     public void disposeNecessary()
     {
-        tree1.getTexture().dispose();
+
+        tree1Top.getTexture().dispose();
+        tree1LeftTop.getTexture().dispose();
+        tree1LeftBottom.getTexture().dispose();
+        tree1RightTop.getTexture().dispose();
+        tree1RightBottom.getTexture().dispose();
+        tree1Bottom.getTexture().dispose();
     }
 }
