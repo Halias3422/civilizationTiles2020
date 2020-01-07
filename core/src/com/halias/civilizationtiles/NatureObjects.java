@@ -2,9 +2,6 @@ package com.halias.civilizationtiles;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import java.util.LinkedList;
-import java.util.ListIterator;
-
 import static com.badlogic.gdx.math.MathUtils.random;
 
 /*
@@ -58,7 +55,7 @@ public class NatureObjects
         }
     }
 
-    public void printMap(SpriteBatch batch, ObjectTextures ObjectTextures, int[][] altitude,
+/*    public void printMap(SpriteBatch batch, ObjectTextures ObjectTextures, int[][] altitude,
                          int altitudeLevel)
     {
         int posX;
@@ -80,6 +77,25 @@ public class NatureObjects
                                     altitude, altitudeLevel);
                     }
                 }
+            }
+        }
+    }
+*/
+    public void printRow(SpriteBatch batch, ObjectTextures ObjectTextures, int[][] altitude,
+                            int mapY, int mapZ)
+    {
+        int posX;
+        int posY;
+        for (int mapX = 0; mapX < x; mapX++)
+        {
+            if (altitude[mapY][mapX] <= mapZ && natureObjects[altitude[mapY][mapX]][mapY][mapX] != "0")
+            {
+                posX = mapX * 16;
+                posY = mapY * 4 + altitude[mapY][mapX] * 8 + 8;
+                if ((mapY + 1) % 2 == 0)
+                    posX += 8;
+                if (natureObjects[altitude[mapY][mapX]][mapY][mapX] == "tree1")
+                 ObjectTextures.printTree1Sprite(batch, posX, posY);
             }
         }
     }

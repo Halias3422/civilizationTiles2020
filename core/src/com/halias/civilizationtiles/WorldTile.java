@@ -13,9 +13,9 @@ public class WorldTile
     {
         tileType = intTileType;
         x = posX * 16;
-        y = posY * 4 + worldZ * 6;
+        y = posY * 4 + worldZ * 8;
         if (tileType == 'H')
-            y += 6;
+            y += 8;
         if ((posY + 1) % 2 == 0)
             x += 8;
     }

@@ -27,6 +27,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
+import java.awt.Frame;
 import java.io.BufferedReader;
 import java.nio.Buffer;
 import java.util.LinkedList;
@@ -44,11 +45,12 @@ public class CharWorldMap
     private NatureObjects NatureObjects;
     private Altitude      Altitude;
     private FrameBuffer[]   FB;
-    private Texture[]      BufferedMap;
+    private FrameBuffer[]   finalFB;
 
     private int x;
     private int y;
     private int height;
+    private int mapSquares;
     private int tilesNumber;
     private int voidTiles;
     private int water;
@@ -65,6 +67,10 @@ public class CharWorldMap
         x = width;
         y = length;
         height = worldZ;
+        mapSquares = length;
+        while (mapSquares % 12 != 0)
+            mapSquares++;
+        mapSquares = mapSquares / 12;
         worldMap = new char[height][y][x];
         System.out.println("world map vars INIT");
         initWorldMap();
@@ -300,44 +306,59 @@ public class CharWorldMap
     public void storeWorldMapIntoFrameBuffer(SpriteBatch batch, float zoomView)
     {
         FB = new FrameBuffer[highestAltitude + 1];
-        BufferedMap = new Texture[highestAltitude + 1];
-        Matrix4 matrix = new Matrix4();
+        finalFB = new FrameBuffer[highestAltitude + 1];
 
-        for (int altitude = 0; altitude < highestAltitude + 1; altitude++)
+        Matrix4 matrix = new Matrix4();
+        matrix.setToOrtho2D(0, 0,x * 16, y * 5);
+        batch.begin();
+        batch.setProjectionMatrix(matrix);
+        for (int alt = 0; alt <highestAltitude + 1; alt++)
         {
-            FB[altitude] = new FrameBuffer(Pixmap.Format.RGBA8888, x * 16 + 8, y * 7, false);
-            FB[altitude].begin();
-            batch.begin();
-            matrix.setToOrtho2D(0, altitude * 6, x * 16 + 8, y * 7);
-            batch.setProjectionMatrix(matrix);
-            Gdx.gl.glClearColor(0, 0, 0, 0);
+            FB[alt] = new FrameBuffer(Pixmap.Format.RGBA8888, x * 16, y * 5,
+                    false, true);
+            FB[alt].begin();
+            Gdx.gl.glClearColor(1, 0, 0, 0);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             for (int row = y - 1; row > -1; row--)
             {
                 for (int tile = 0; tile < x; tile++)
                 {
-                    if (worldMap[altitude][row][tile] != '0' && worldMap[altitude][row][tile] != 'V')
-                        printTile(batch, worldMap[altitude][row][tile], TileTextures,
-                                altitude, tile, row);
-
+                    if (worldMap[alt][row][tile] != '0' && worldMap[alt][row][tile] != 'V')
+                        printTile(batch, worldMap[alt][row][tile], TileTextures, alt, tile, row);
                 }
             }
-            batch.end();
-            FB[altitude].end();
-            BufferedMap[altitude] = FB[altitude].getColorBufferTexture();
-            BufferedMap[altitude].setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        FB[alt].end();
+        FB[alt].getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        }
+        for (int reprint = 0; reprint < highestAltitude + 1; reprint++)
+        {
+            finalFB[reprint] = new FrameBuffer(Pixmap.Format.RGBA8888, x * 16, y * 5 + reprint * 6,
+                    false, true);
+            finalFB[reprint].begin();
+            matrix.setToOrtho2D(0, 0, x * 16, y * 5 + reprint * 6);
+            batch.setProjectionMatrix(matrix);
+            Gdx.gl.glClearColor(1, 0,0, 1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            for (int currAlt = 0; currAlt <= reprint; currAlt++)
+                batch.draw(FB[currAlt].getColorBufferTexture(), 0, 0, x * 16, y * 5 + reprint * 6, 0, 0, x * 16,
+                    y * 5 + reprint * 6, false, true);
+            finalFB[reprint].end();
+            finalFB[reprint].getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        }
+        batch.end();
+        for (int i = 0; i < highestAltitude + 1; i++)
+        {
+            FB[i].dispose();
         }
     }
 
     public void printMap(SpriteBatch batch, int SCREEN_WIDTH, int SCREEN_HEIGHT, int altitudeLevel)
     {
-        for (int alti = 0; alti < altitudeLevel + 1; alti++)
-        {
-            batch.draw(BufferedMap[alti], 0, alti * 6, Math.round(x * 16 + 8), y * 7, 0, 0,
-                    x * 16 + 8, y * 7, false, true);
-        }
-        NatureObjects.printMap(batch, ObjectTextures, altitude, altitudeLevel);
+            batch.draw(finalFB[altitudeLevel].getColorBufferTexture(), 0, 0, x * 16, y * 5 + altitudeLevel * 6, 0, 0, x * 16,
+                    y * 5 + altitudeLevel * 6, false, true);
     }
+
+    int updated = 0;
 
     private void printTile(SpriteBatch batch, char tileType, TileTextures TileTextures,
                            int z, int posX, int posY)
@@ -364,10 +385,9 @@ public class CharWorldMap
 
     public void disposeNecessary()
     {
-            for (int i = 0; i < height; i++)
+            for (int i = 0; i < highestAltitude + 1; i++)
             {
-                FB[i].dispose();
-                BufferedMap[i].dispose();
+                finalFB[i].dispose();
             }
         TileTextures.disposeNecessary();
         ObjectTextures.disposeNecessary();

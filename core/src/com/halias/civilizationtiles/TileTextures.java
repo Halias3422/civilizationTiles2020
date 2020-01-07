@@ -34,40 +34,25 @@ public class TileTextures
         worldX = x;
         worldY = y;
         elevatedGrass = new Sprite(new Texture("elevatedGrass.png"));
-        elevatedGrass.setSize(16, 14);
         elevatedGrassRight = new Sprite(new Texture("elevatedGrassTop.png"));
-        elevatedGrassRight.setSize(16, 14);
         elevatedGrassLeft = new Sprite(new Texture("elevatedGrassLeft.png"));
-        elevatedGrassLeft.setSize(16, 14);
         elevatedGrassAll = new Sprite(new Texture("elevatedGrassAll.png"));
-        elevatedGrassAll.setSize(16, 14);
 
         elevatedForest = new Sprite(new Texture("elevatedForest.png"));
-        elevatedForest.setSize(16, 14);
         elevatedForestRight = new Sprite(new Texture("elevatedForestRight.png"));
-        elevatedForestRight.setSize(16, 14);
         elevatedForestLeft = new Sprite(new Texture("elevatedForestLeft.png"));
-        elevatedForestLeft.setSize(16, 14);
         elevatedForestAll = new Sprite(new Texture("elevatedForestAll.png"));
-        elevatedForestAll.setSize(16, 14);
 
         shallowWater = new Sprite(new Texture("shallowWater.png"));
-        shallowWater.setSize(16, 14);
 
         deepWater = new Sprite(new Texture("DeepWater.png"));
-        deepWater.setSize(16, 14);
 
         elevatedDirt = new Sprite(new Texture("elevatedDirt.png"));
-        elevatedDirt.setSize(16, 14);
         elevatedDirtRight = new Sprite(new Texture("elevatedDirtRight.png"));
-        elevatedDirtRight.setSize(16, 14);
         elevatedDirtLeft = new Sprite(new Texture("elevatedDirtLeft.png"));
-        elevatedDirtLeft.setSize(16, 14);
         elevatedDirtAll = new Sprite(new Texture("elevatedDirtAll.png"));
-        elevatedDirtAll.setSize(16, 14);
 
         hiddenZero = new Sprite(new Texture("hiddenZero.png"));
-        hiddenZero.setSize(16, 8);
     }
 
     public void printHiddenTile(SpriteBatch batch, char[][][] worldMap, int x, int y, int z,

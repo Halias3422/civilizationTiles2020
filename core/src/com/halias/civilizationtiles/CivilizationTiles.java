@@ -22,7 +22,6 @@ public class CivilizationTiles extends ApplicationAdapter {
 	private Viewport			  viewport;
 	final private float		  	  SCREEN_WIDTH = 320;
 	final private float			  SCREEN_HEIGHT = 240;
-	private GestureDetector		  gesture;
 
 	private int				   	  worldSizeX;
 	private int					  worldSizeY;
@@ -45,9 +44,9 @@ public class CivilizationTiles extends ApplicationAdapter {
 		//SCREEN_HEIGHT = Gdx.graphics.getHeight();
 		viewport = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT, camera);
 
-		worldSizeY = 60 * 2;
-		worldSizeX = 20 * 2;
-		worldSizeZ = 1 + 20;
+		worldSizeY = 60 * 5;
+		worldSizeX = 20 * 5;
+		worldSizeZ = 1 + 30;
 		offsetX = 0;
 		offsetY = 0;
 //		camera.zoom = 2.2F;
@@ -91,6 +90,7 @@ public class CivilizationTiles extends ApplicationAdapter {
 			altitudeLevel--;
 		else if (Gdx.input.isKeyJustPressed(Input.Keys.R) && altitudeLevel < highestAltitude)
 			altitudeLevel++;
+
 		//System.out.println("altitudeLevel = " + altitudeLevel);
 		camera.update();
 		//batch.setProjectionMatrix(camera.combined);
