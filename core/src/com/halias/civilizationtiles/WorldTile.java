@@ -9,13 +9,11 @@ public class WorldTile
     int             y;
     char            tileType;
 
-    public WorldTile(char intTileType, int posX, int posY, int worldX, int worldY, int worldZ)
+    public WorldTile(char intTileType, int posX, int posY, int worldX, int worldY)
     {
         tileType = intTileType;
         x = posX * 16;
-        y = posY * 4 + worldZ * 8;
-        if (tileType == 'H')
-            y += 8;
+        y = posY * 4;
         if ((posY + 1) % 2 == 0)
             x += 8;
     }
@@ -36,22 +34,20 @@ public class WorldTile
         return (y);
     }
 
-    public void print(SpriteBatch batch, char[][][] worldMap, TileTextures TileTextures,
-                      int z, int tabX, int tabY)
+    public void print(SpriteBatch batch, char[][] worldMap, TileTextures TileTextures,
+                      int tabX, int tabY)
     {
         if (tileType == 'V')
             return ;
         else if (tileType == 'G')
-            TileTextures.printGrassSprite(batch, worldMap, x, y, z, tabX, tabY);
+            TileTextures.printGrassSprite(batch, worldMap, x, y, tabX, tabY);
         else if (tileType == 'F')
-            TileTextures.printForestSprite(batch, worldMap, x, y, z, tabX, tabY);
+            TileTextures.printForestSprite(batch, worldMap, x, y, tabX, tabY);
         else if (tileType == 'W')
             TileTextures.printDeepWaterSprite(batch, x, y);
         else if (tileType == 'w')
             TileTextures.printShallowWaterSprite(batch, x, y);
         else if (tileType == 'D')
-            TileTextures.printDirtSprite(batch, worldMap, x , y, z, tabX, tabY);
-        else if (tileType == 'H')
-            TileTextures.printHiddenTile(batch, worldMap, x, y, z, tabX, tabY);
+            TileTextures.printDirtSprite(batch, worldMap, x , y, tabX, tabY);
     }
 }

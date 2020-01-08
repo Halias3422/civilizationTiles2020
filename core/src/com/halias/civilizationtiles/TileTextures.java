@@ -55,27 +55,21 @@ public class TileTextures
         hiddenZero = new Sprite(new Texture("hiddenZero.png"));
     }
 
-    public void printHiddenTile(SpriteBatch batch, char[][][] worldMap, int x, int y, int z,
-                                int tabX, int tabY)
-    {
-            hiddenZero.setPosition(x, y);
-            hiddenZero.draw(batch);
-    }
 
-    public void printGrassSprite(SpriteBatch batch, char[][][] worldMap, int x, int y, int z,
+    public void printGrassSprite(SpriteBatch batch, char[][] worldMap, int x, int y,
                                  int tabX, int tabY)
     {
-        if (isTopLeft(worldMap, tabX, tabY, z) == 1 && isTopRight(worldMap, tabX, tabY, z) == 1)
+        if (isTopLeft(worldMap, tabX, tabY) == 1 && isTopRight(worldMap, tabX, tabY) == 1)
         {
             elevatedGrassAll.setPosition(x, y);
             elevatedGrassAll.draw(batch);
         }
-        else if (isTopRight(worldMap, tabX, tabY, z) == 1)
+        else if (isTopRight(worldMap, tabX, tabY) == 1)
         {
             elevatedGrassRight.setPosition(x, y);
             elevatedGrassRight.draw(batch);
         }
-        else if (isTopLeft(worldMap, tabX, tabY, z) == 1)
+        else if (isTopLeft(worldMap, tabX, tabY) == 1)
         {
             elevatedGrassLeft.setPosition(x, y);
             elevatedGrassLeft.draw(batch);
@@ -87,20 +81,20 @@ public class TileTextures
         }
     }
 
-    public void printForestSprite(SpriteBatch batch, char[][][] worldMap, int x, int y, int z,
+    public void printForestSprite(SpriteBatch batch, char[][] worldMap, int x, int y,
                                   int tabX, int tabY)
     {
-        if (isTopLeft(worldMap, tabX, tabY, z) == 1 && isTopRight(worldMap, tabX, tabY, z) == 1)
+        if (isTopLeft(worldMap, tabX, tabY) == 1 && isTopRight(worldMap, tabX, tabY) == 1)
         {
             elevatedForestAll.setPosition(x, y);
             elevatedForestAll.draw(batch);
         }
-        else if (isTopRight(worldMap, tabX, tabY, z) == 1)
+        else if (isTopRight(worldMap, tabX, tabY) == 1)
         {
             elevatedForestRight.setPosition(x, y);
             elevatedForestRight.draw(batch);
         }
-        else if (isTopLeft(worldMap, tabX, tabY, z) == 1)
+        else if (isTopLeft(worldMap, tabX, tabY) == 1)
         {
             elevatedForestLeft.setPosition(x, y);
             elevatedForestLeft.draw(batch);
@@ -124,20 +118,20 @@ public class TileTextures
         deepWater.draw(batch);
     }
 
-    public void printDirtSprite(SpriteBatch batch, char[][][] worldMap, int x, int y, int z,
+    public void printDirtSprite(SpriteBatch batch, char[][] worldMap, int x, int y,
                                   int tabX, int tabY)
     {
-        if (isTopLeft(worldMap, tabX, tabY, z) == 1 && isTopRight(worldMap, tabX, tabY, z) == 1)
+        if (isTopLeft(worldMap, tabX, tabY) == 1 && isTopRight(worldMap, tabX, tabY) == 1)
         {
             elevatedDirtAll.setPosition(x, y);
             elevatedDirtAll.draw(batch);
         }
-        else if (isTopRight(worldMap, tabX, tabY, z) == 1)
+        else if (isTopRight(worldMap, tabX, tabY) == 1)
         {
             elevatedDirtRight.setPosition(x, y);
             elevatedDirtRight.draw(batch);
         }
-        else if (isTopLeft(worldMap, tabX, tabY, z) == 1)
+        else if (isTopLeft(worldMap, tabX, tabY) == 1)
         {
             elevatedDirtLeft.setPosition(x, y);
             elevatedDirtLeft.draw(batch);
@@ -149,35 +143,35 @@ public class TileTextures
         }
     }
 
-    private int isTopLeft(char[][][] worldMap, int tabX, int tabY, int z)
+    private int isTopLeft(char[][] worldMap, int tabX, int tabY)
     {
         if ((tabY + 1) % 2 != 0)
         {
             if (tabY == worldY - 1
-                    || (tabX == 0 || worldMap[z][tabY + 1][tabX - 1] == '0'))
+                    || (tabX == 0 || worldMap[tabY + 1][tabX - 1] == '0'))
                 return (1);
         }
         else
         {
             if (tabY == worldY - 1
-                || worldMap[z][tabY + 1][tabX] == '0')
+                || worldMap[tabY + 1][tabX] == '0')
                 return (1);
         }
         return (0);
     }
 
-    private int isTopRight(char[][][] worldMap, int tabX, int tabY, int z)
+    private int isTopRight(char[][] worldMap, int tabX, int tabY)
     {
         if ((tabY + 1) % 2 != 0)
         {
             if (tabY == worldY - 1
-                || worldMap[z][tabY + 1][tabX] == '0')
+                || worldMap[tabY + 1][tabX] == '0')
                 return (1);
         }
         else
         {
             if (tabY == worldY - 1
-                || (tabX == worldX - 1 || worldMap[z][tabY + 1][tabX + 1] == '0'))
+                || (tabX == worldX - 1 || worldMap[tabY + 1][tabX + 1] == '0'))
                 return (1);
         }
         return (0);

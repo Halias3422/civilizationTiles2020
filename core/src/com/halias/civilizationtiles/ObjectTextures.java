@@ -8,68 +8,76 @@ public class ObjectTextures
 {
     int worldX;
     int worldY;
-    int worldZ;
 
-    char[][][] tileMap;
+    char[][] tileMap;
 
-    private Sprite tree1Top;
-    private Sprite tree1LeftTop;
-    private Sprite tree1LeftBottom;
-    private Sprite tree1RightTop;
-    private Sprite tree1RightBottom;
-    private Sprite tree1Bottom;
+    private Sprite tree1;
+    private Sprite tree2;
+    private Sprite tree3;
+
+    private Sprite bush1;
+    private Sprite bush2;
+
+    private Sprite rock1;
+    private Sprite rock2;
 
     private Sprite peon;
 
-    public ObjectTextures(int y, int x, int z, char[][][] worldMap)
+    public ObjectTextures(int y, int x, char[][] worldMap)
     {
         worldX = x;
         worldY = y;
-        worldZ = z;
         tileMap = worldMap;
-        tree1Top = new Sprite(new Texture("tree1Top.png"));
-        tree1LeftTop = new Sprite(new Texture("tree1LeftTop.png"));
-        tree1LeftBottom = new Sprite(new Texture("tree1LeftBottom.png"));
-        tree1RightTop = new Sprite(new Texture("tree1RightTop.png"));
-        tree1RightBottom = new Sprite(new Texture("tree1RightBottom.png"));
-        tree1Bottom = new Sprite(new Texture("tree1Bottom.png"));
+        tree1 = new Sprite(new Texture("tree1.png"));
+        tree2 = new Sprite(new Texture("tree2.png"));
+        tree3 = new Sprite(new Texture("tree3.png"));
+        bush1 = new Sprite(new Texture("bush1.png"));
+        bush2 = new Sprite(new Texture("bush2.png"));
+        rock1 = new Sprite(new Texture("rock1.png"));
+        rock2 = new Sprite(new Texture("rock2.png"));
         peon = new Sprite(new Texture("peon.png"));
     }
 
-    public void printTree1Sprite(SpriteBatch batch, int x, int y, int printTop, int printBottom,
-                                 int printLeftTop, int printLeftBottom, int printRightTop,
-                                 int printRightBottom)
+    public void printTree1Sprite(SpriteBatch batch, int x, int y)
     {
-       if (printTop == 1)
-       {
-        tree1Top.setPosition(x, y);
-        tree1Top.draw(batch);
-       }
-       if (printBottom == 1)
-       {
-           tree1Bottom.setPosition(x, y);
-           tree1Bottom.draw(batch);
-       }
-       if (printLeftTop == 1)
-       {
-           tree1LeftTop.setPosition(x, y);
-           tree1LeftTop.draw(batch);
-       }
-       if (printLeftBottom == 1)
-       {
-           tree1LeftBottom.setPosition(x, y);
-           tree1LeftBottom.draw(batch);
-       }
-       if (printRightTop == 1)
-       {
-           tree1RightTop.setPosition(x, y);
-           tree1RightTop.draw(batch);
-       }
-       if (printRightBottom == 1)
-       {
-           tree1RightBottom.setPosition(x, y);
-           tree1RightBottom.draw(batch);
-       }
+        tree1.setPosition(x, y);
+        tree1.draw(batch);
+    }
+
+    public void printTree2Sprite(SpriteBatch batch, int x, int y)
+    {
+        tree2.setPosition(x, y);
+        tree2.draw(batch);
+    }
+
+    public void printTree3Sprite(SpriteBatch batch, int x, int y)
+    {
+        tree3.setPosition(x, y);
+        tree3.draw(batch);
+    }
+
+    public void printBush1Sprite(SpriteBatch batch, int x, int y)
+    {
+        bush1.setPosition(x, y);
+        bush1.draw(batch);
+    }
+
+    public void printBush2Sprite(SpriteBatch batch, int x, int y)
+    {
+        bush2.setPosition(x, y);
+        bush2.draw(batch);
+    }
+
+    public void printRock1Sprite(SpriteBatch batch, int x, int y)
+    {
+        rock1.setPosition(x, y);
+        rock1.draw(batch);
+    }
+
+    public void printRock2Sprite(SpriteBatch batch, int x, int y)
+    {
+        rock2.setPosition(x, y);
+        rock2.draw(batch);
     }
 
     public void printPeonSprite(SpriteBatch batch, int x, int y)
@@ -81,11 +89,7 @@ public class ObjectTextures
     public void disposeNecessary()
     {
 
-        tree1Top.getTexture().dispose();
-        tree1LeftTop.getTexture().dispose();
-        tree1LeftBottom.getTexture().dispose();
-        tree1RightTop.getTexture().dispose();
-        tree1RightBottom.getTexture().dispose();
-        tree1Bottom.getTexture().dispose();
+        tree1.getTexture().dispose();
+        peon.getTexture().dispose();
     }
 }

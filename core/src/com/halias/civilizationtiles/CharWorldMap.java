@@ -38,38 +38,34 @@ import static com.badlogic.gdx.math.MathUtils.random;
 
 public class CharWorldMap
 {
-    private char[][][] worldMap;
-    private int[][]   altitude;
+    private char[][] worldMap;
     private TileTextures TileTextures;
     private ObjectTextures ObjectTextures;
-    private Altitude      Altitude;
-    private FrameBuffer[]   FB;
+    private FrameBuffer   FB;
 
     private int x;
     private int y;
-    private int height;
     private int mapSquares;
     private int tilesNumber;
-    private int voidTiles;
     private int water;
     private int grass;
     private int forest;
     private int dirt;
+    private int voidTiles;
     private int sand;
 
-    private int highestAltitude;
 
-    public CharWorldMap(int width, int length, int worldZ, float SCREEN_WIDTH, float SCREEN_HEIGHT,
+    public CharWorldMap(int width, int length, float SCREEN_WIDTH, float SCREEN_HEIGHT,
                         SpriteBatch batch)
     {
         x = width;
         y = length;
-        height = worldZ;
+        voidTiles = 0;
         mapSquares = length;
         while (mapSquares % 12 != 0)
             mapSquares++;
         mapSquares = mapSquares / 12;
-        worldMap = new char[height][y][x];
+        worldMap = new char[y][x];
         System.out.println("world map vars INIT");
         initWorldMap();
         fillGenerationVariables(width, length);
@@ -82,55 +78,11 @@ public class CharWorldMap
         fillMapWithGrass();
         System.out.println("grass added");
         System.out.println("level 0 FILLED");
-        Altitude = new Altitude(x, y, height, worldMap);
-        System.out.println("altitude done");
-        altitude = Altitude.retreiveIntTab();
-        highestAltitude = Altitude.findHighestAltitude();
-        System.out.println("HIGHEST ALTITUDE = " + highestAltitude);
-        System.out.println("WORLDZ = " + worldZ);
-        createAllWorldLevels();
-        System.out.println("world map filled with ALL ALTITUDES");
         TileTextures = new TileTextures(length, width);
-        ObjectTextures = new ObjectTextures(length, width, height, worldMap);
+        ObjectTextures = new ObjectTextures(length, width, worldMap);
     //    debugPrintWorldMap(x, y);
         storeWorldMapIntoFrameBuffer(batch, 0.05F);
         System.out.println("map stored into FRAMEBUFFER");
-    }
-
-
-    private void createAllWorldLevels()
-    {
-        for (int i = 0; i < y; i++)
-          {
-            for (int j = 0; j < x; j++)
-            {
-                for (int currHeight = 1; currHeight <= altitude[i][j]; currHeight++)
-                {
-                    if (worldMap[currHeight - 1][i][j] != 'w' && worldMap[currHeight - 1][i][j] != 'W')
-                        worldMap[currHeight][i][j] = worldMap[currHeight - 1][i][j];
-                }
-            }
-        }
-        /*int nbAdded;
-        int percentChance = 30;
-        for (int z = 1; z < height; z++)
-        {
-            nbAdded = 0;
-            for (int i = 0; i < y; i++)
-            {
-                for (int j = 0; j < x; j++)
-                {
-                    if ((worldMap[z - 1][i][j] == 'G' || worldMap[z - 1][i][j] == 'F' ||
-                            worldMap[z - 1][i][j] == 'D') && random.nextInt(100) < percentChance)
-                    {
-                        worldMap[z][i][j] = worldMap[z - 1][i][j];
-                        nbAdded++;
-                    }
-                }
-            }
-            if (percentChance < 70)
-                percentChance += 5;
-        }*/
     }
 
     private void fillMapWithGrass()
@@ -139,29 +91,25 @@ public class CharWorldMap
         {
             for (int j = 0; j < x; j++)
             {
-                if (worldMap[0][i][j] == '0')
-                    worldMap[0][i][j] = 'G';
+                if (worldMap[i][j] == '0')
+                    worldMap[i][j] = 'G';
             }
         }
     }
 
     private void initWorldMap()
     {
-        voidTiles = 0;
-        for (int z = 0; z < height; z++)
+        for (int i = 0; i < y; i++)
         {
-            for (int i = 0; i < y; i++)
+            for (int j = 0; j < x; j++)
             {
-                for (int j = 0; j < x; j++)
+                if ((j == x - 1 || i == y - 1) && i % 2 != 0)
                 {
-                    if ((j == x - 1 || i == y - 1) && i % 2 != 0)
-                    {
-                        if (z == 0)
-                            voidTiles++;
-                        worldMap[z][i][j] = 'V';
-                    } else
-                        worldMap[z][i][j] = '0';
+                    voidTiles++;
+                    worldMap[i][j] = 'V';
                 }
+                else
+                    worldMap[i][j] = '0';
             }
         }
     }
@@ -209,9 +157,9 @@ public class CharWorldMap
             {
                 randX = random.nextInt(x);
                 randY = random.nextInt(y);
-            } while (worldMap[0][randY][randX] != '0' || worldMap[0][randY][randX] == 'V');
-            worldMap[0][randY][randX] = tileType;
-           GenerateTerrain = new GenerateTerrain(worldMap[0], tileType, terrainPoints[i], randX, randY, x, y);
+            } while (worldMap[randY][randX] != '0' || worldMap[randY][randX] == 'V');
+            worldMap[randY][randX] = tileType;
+           GenerateTerrain = new GenerateTerrain(worldMap, tileType, terrainPoints[i], randX, randY, x, y);
            if (GenerateTerrain.checkIfDone() == 1)
                break ;
         }
@@ -225,8 +173,8 @@ public class CharWorldMap
         {
             for (int j = 0; j < x; j++)
             {
-                if (worldMap[0][i][j] == 'w' && checkIfSurroundedByWater(i, j) == 1)
-                    worldMap[0][i][j] = 'W';
+                if (worldMap[i][j] == 'w' && checkIfSurroundedByWater(i, j) == 1)
+                    worldMap[i][j] = 'W';
             }
         }
     }
@@ -237,31 +185,31 @@ public class CharWorldMap
         if ((i + 1) % 2 != 0)
         {
             if (i == 0 ||
-                    ((j == 0 || worldMap[0][i - 1][j - 1] == 'w' || worldMap[0][i - 1][j - 1] == 'W'
-                            || worldMap[0][i - 1][j - 1] == 'V') &&
-                    (worldMap[0][i - 1][j] == 'w' || worldMap[0][i - 1][j] == 'W' ||
-                            worldMap[0][i - 1][j] == 'V')))
+                    ((j == 0 || worldMap[i - 1][j - 1] == 'w' || worldMap[i - 1][j - 1] == 'W'
+                            || worldMap[i - 1][j - 1] == 'V') &&
+                    (worldMap[i - 1][j] == 'w' || worldMap[i - 1][j] == 'W' ||
+                            worldMap[i - 1][j] == 'V')))
                 check++;
             if (i == y - 1 ||
-                    ((j == 0 || worldMap[0][i + 1][j - 1] == 'w' || worldMap[0][i + 1][j - 1] == 'W'
-                            || worldMap[0][i + 1][j - 1] == 'V') &&
-                    (worldMap[0][i + 1][j] == 'w' || worldMap[0][i + 1][j] == 'W' ||
-                            worldMap[0][i + 1][j] == 'V')))
+                    ((j == 0 || worldMap[i + 1][j - 1] == 'w' || worldMap[i + 1][j - 1] == 'W'
+                            || worldMap[i + 1][j - 1] == 'V') &&
+                    (worldMap[i + 1][j] == 'w' || worldMap[i + 1][j] == 'W' ||
+                            worldMap[i + 1][j] == 'V')))
                 check++;
         }
         else
         {
             if (i == 0 ||
-                    ((worldMap[0][i - 1][j] == 'w' || worldMap[0][i - 1][j] == 'W' ||
-                            worldMap[0][i - 1][j] == 'V') &&
-                    (j == x - 1 || worldMap[0][i - 1][j + 1] == 'w' ||
-                            worldMap[0][i - 1][j + 1] == 'W' || worldMap[0][i - 1][j + 1] == 'V')))
+                    ((worldMap[i - 1][j] == 'w' || worldMap[i - 1][j] == 'W' ||
+                            worldMap[i - 1][j] == 'V') &&
+                    (j == x - 1 || worldMap[i - 1][j + 1] == 'w' ||
+                            worldMap[i - 1][j + 1] == 'W' || worldMap[i - 1][j + 1] == 'V')))
                 check++;
             if (i == y - 1 ||
-                    ((worldMap[0][i + 1][j] == 'w' || worldMap[0][i + 1][j] == 'W' ||
-                            worldMap[0][i + 1][j] == 'V') &&
-                    (j == x - 1 || worldMap[0][i + 1][j + 1] == 'w' ||
-                            worldMap[0][i + 1][j + 1] == 'W' || worldMap[0][i + 1][j + 1] == 'V')))
+                    ((worldMap[i + 1][j] == 'w' || worldMap[i + 1][j] == 'W' ||
+                            worldMap[i + 1][j] == 'V') &&
+                    (j == x - 1 || worldMap[i + 1][j + 1] == 'w' ||
+                            worldMap[i + 1][j + 1] == 'W' || worldMap[i + 1][j + 1] == 'V')))
                 check++;
         }
         if (check == 2)
@@ -271,7 +219,7 @@ public class CharWorldMap
 
     public char getTileContent(int x, int y, int z)
     {
-        return (worldMap[z][y][x]);
+        return (worldMap[y][x]);
     }
 
     private void debugPrintWorldMap(int x, int y)
@@ -301,80 +249,53 @@ public class CharWorldMap
 
     public void storeWorldMapIntoFrameBuffer(SpriteBatch batch, float zoomView)
     {
-        FB = new FrameBuffer[highestAltitude + 1];
-
-        Matrix4 matrix = new Matrix4();
-        for (int alt = 0; alt < highestAltitude + 1; alt++)
-        {
-            FB[alt] = new FrameBuffer(Pixmap.Format.RGBA8888, x * 16, (y * 4 + 12) + alt * 8,
+            Matrix4 matrix = new Matrix4();
+            FB = new FrameBuffer(Pixmap.Format.RGBA8888, x * 16, (y * 4 + 12),
                     false, true);
-            FB[alt].begin();
-            matrix.setToOrtho2D(0, 0,x * 16, (y * 4 + 12) + alt * 8);
+            FB.begin();
+            matrix.setToOrtho2D(0, 0,x * 16, (y * 4 + 12));
             batch.begin();
             batch.setProjectionMatrix(matrix);
             Gdx.gl.glClearColor(1, 0, 0, 0);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-            for (int reprint = 0; reprint < alt; reprint++)
-            {
-                batch.draw(FB[reprint].getColorBufferTexture(), 0, 0, x * 16, (y * 4 + 12) + reprint * 8, 0, 0, x * 16,
-                        (y * 4 + 12) + reprint * 8, false, true);
-            }
             for (int row = y - 1; row > -1; row--)
             {
                 for (int tile = 0; tile < x; tile++)
                 {
-                    if (worldMap[alt][row][tile] != '0' && worldMap[alt][row][tile] != 'V')
-                        printTile(batch, worldMap[alt][row][tile], TileTextures, alt, tile, row);
+                    if (worldMap[row][tile] != '0' && worldMap[row][tile] != 'V')
+                        printTile(batch, worldMap[row][tile], TileTextures, tile, row);
                 }
             }
             batch.end();
-            FB[alt].end();
-            FB[alt].getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-        }
+            FB.end();
+            FB.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
     }
 
-    public void printMap(SpriteBatch batch, int SCREEN_WIDTH, int SCREEN_HEIGHT, int altitudeLevel)
+    public void printMap(SpriteBatch batch, int SCREEN_WIDTH, int SCREEN_HEIGHT)
     {
-        batch.draw(FB[altitudeLevel].getColorBufferTexture(), 0, 0, x * 16, (y * 4 + 12) + altitudeLevel * 8, 0, 0, x * 16,
-                (y * 4 + 12) + altitudeLevel * 8, false, true);
+        batch.draw(FB.getColorBufferTexture(), 0, 0, x * 16, (y * 4 + 12), 0, 0, x * 16,
+                (y * 4 + 12), false, true);
     }
 
     int updated = 0;
 
     private void printTile(SpriteBatch batch, char tileType, TileTextures TileTextures,
-                           int z, int posX, int posY)
+                           int posX, int posY)
     {
         WorldTile Current;
-        Current = new WorldTile(tileType, posX, posY, x, y, z);
-        Current.print(batch, worldMap, TileTextures, z, posX, posY);
-        if (z < height - 1 && worldMap[z + 1][posY][posX] != '0')
-        {
-            Current = new WorldTile('H', posX, posY, x, y, z);
-            Current.print(batch, worldMap, TileTextures, x, posX, posY);
-        }
+        Current = new WorldTile(tileType, posX, posY, x, y);
+        Current.print(batch, worldMap, TileTextures, posX, posY);
     }
 
-    public char[][][] getCharWorldMap()
+    public char[][] getCharWorldMap()
     {
         return (worldMap);
     }
 
-    public int[][] getAltitude()
-    {
-        return (altitude);
-    }
-
-    public int retreiveHighestAltitude()
-    {
-        return (highestAltitude);
-    }
 
     public void disposeNecessary()
     {
-        for (int i = 0; i < highestAltitude + 1; i++)
-        {
-            FB[i].dispose();
-        }
+        FB.dispose();
         TileTextures.disposeNecessary();
         ObjectTextures.disposeNecessary();
     }

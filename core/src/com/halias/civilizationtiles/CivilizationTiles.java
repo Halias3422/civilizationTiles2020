@@ -21,16 +21,13 @@ public class CivilizationTiles extends ApplicationAdapter {
 
 	private int				   	  worldSizeX;
 	private int					  worldSizeY;
-	private int					  worldSizeZ;
 	private int					  offsetX;
 	private int				      offsetY;
 	private float				  prevZoomView;
 	private float				  zoomView;
-	private int 				  altitudeLevel;
-	private int					  highestAltitude;
 
 	private CharWorldMap		  CharWorldMap;
-	private NatureObjectsMap NatureObjectsMap;
+	private NatureObjects		  NatureObjects;
 
 	@Override
 	public void create () {
@@ -41,18 +38,15 @@ public class CivilizationTiles extends ApplicationAdapter {
 		//SCREEN_HEIGHT = Gdx.graphics.getHeight();
 		viewport = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT, camera);
 
-		worldSizeY = 60 * 5;
-		worldSizeX = 20 * 5;
-		worldSizeZ = 1 + 10;
+		worldSizeY = 60 * 51;
+		worldSizeX = 20 * 51;
 		offsetX = 0;
 		offsetY = 0;
 //		camera.zoom = 2.2F;
-		CharWorldMap = new CharWorldMap(worldSizeX, worldSizeY, worldSizeZ,
+		CharWorldMap = new CharWorldMap(worldSizeX, worldSizeY,
 				SCREEN_WIDTH, SCREEN_HEIGHT, batch);
-		altitudeLevel = CharWorldMap.retreiveHighestAltitude();
-		highestAltitude = altitudeLevel;
-		NatureObjectsMap = new NatureObjectsMap(CharWorldMap.getCharWorldMap(), worldSizeX,
-				worldSizeY, worldSizeZ, highestAltitude, CharWorldMap.getAltitude(), batch);
+		NatureObjects = new NatureObjects(CharWorldMap.getCharWorldMap(), worldSizeX, worldSizeY,
+				batch);
 	}
 
 	@Override
@@ -85,10 +79,6 @@ public class CivilizationTiles extends ApplicationAdapter {
 		{
 		    camera.zoom -= 0.04;
 		}
-		if (Gdx.input.isKeyJustPressed(Input.Keys.E) && altitudeLevel > 0)
-			altitudeLevel--;
-		else if (Gdx.input.isKeyJustPressed(Input.Keys.R) && altitudeLevel < highestAltitude)
-			altitudeLevel++;
 
 		//System.out.println("altitudeLevel = " + altitudeLevel);
 		camera.update();
@@ -99,8 +89,8 @@ public class CivilizationTiles extends ApplicationAdapter {
 
 		batch.begin();
 		batch.draw(background, 0, 0);
-		CharWorldMap.printMap(batch, (int)SCREEN_WIDTH, (int)SCREEN_HEIGHT, altitudeLevel);
-		NatureObjectsMap.printMap(batch, altitudeLevel);
+		CharWorldMap.printMap(batch, (int)SCREEN_WIDTH, (int)SCREEN_HEIGHT);
+		NatureObjects.printMap(batch);
 		batch.end();
 	}
 
